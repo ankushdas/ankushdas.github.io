@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="google-site-verification" content="HbuYYxmx82KvIPdo8h5v7cFE-tOwnyKFyW3Q_FSmvyo" />
+
+  <title>CS 599</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/scrolling-nav.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <div class="container">
+      <!-- Name on the side in the nav bar -->
+      <a class="navbar-brand js-scroll-trigger" href="index.html#page-top">Ankush Das</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="index.html#about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="index.html#news">News</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="index.html#publications">Publications</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="index.html#students">Students</a>
+          </li>    
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="index.html#teaching">Teaching</a>
+          </li>        
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" onclick="window.open(this.href); return false;" title="docs/CV.pdf" href="docs/cv.pdf" onkeypress="window.open(this.href); return false;">CV</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+	<header class="bg-primary text-black">
+  </header>
+
+	<section id="news" class="bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-10 mx-auto">
+          <h2 style="padding-bottom: 2%;">CS 599 D1: Programming Language Foundations for Concurrency, Spring 2024</h2>
+
+					<h4 style="padding-bottom: 2%;">
+					Course Overview
+					</h4>
+					<p>
+					Software systems around us are getting more and more complex by the day
+					with multi-processor systems, microservices, and distributed programming.
+					At the center of all this complexity lies concurrency, i.e., processes
+					can execute in arbitrary orders and failures (e.g., network faults, node crashes, etc.)
+					are pervasive.
+					Building software systems is no longer straightforward (probably never was)
+					and the issues introduced by concurrency cannot be ignored.
+					This course will study the foundations of where these challenges arise from
+					and will equip students with tools to handle these challenges.
+					</p>
+
+					<p>
+					The ultimate goal is for students to build robust concurrent software systems
+					using state-of-the-art PL tools and techniques.
+					</p>
+
+
+          <table style="width:100%">
+            <colgroup>
+              <col span="1" style="width: 15%;">
+              <col span="1" style="width: 85%;">
+            </colgroup>
+
+            <tr>
+              <td valign="top"><b>Instructor:</b></td>
+              <td style="text-align: justify;"><a href="https://ankushdas.github.io/">Ankush Das</a>, ankushd [at] bu [dot] edu</td>
+            </tr>
+
+						<tr>
+              <td valign="top"><b>Class Schedule:</b></td>
+              <td style="text-align: justify;">Mon, Wed 4:30 pm-5:45 pm</td>
+            </tr>
+
+						<tr>
+              <td valign="top"><b>Class Location:</b></td>
+              <td style="text-align: justify;">MCS B29</td>
+            </tr>
+
+						<tr>
+              <td valign="top"><b>Course Website:</b></td>
+              <td style="text-align: justify;"><a href="https://ankushdas.github.io/CS599.html">https://ankushdas.github.io/CS599.html</a></td>
+            </tr>
+          </table>
+
+					<br>
+
+					<h4 style="padding-bottom: 2%;">
+					Course Schedule
+					</h4>
+
+					<p><i>Will be updated regularly!</i></p>
+
+					<table class="lecture_table" border="1">
+						<tr>
+							<th>Date</th>
+							<th>Topics</th>
+							<th>Lecture Notes</th>
+							<th>Handouts/Assignments</th>
+						</tr>
+
+					</table>
+
+					<br>
+
+					<h4 style="padding-bottom: 2%;">
+					Course FAQs
+					</h4>
+					
+					<p>
+						<i><b>Programming Language: Could you clarify which programming language(s) will be used in the course?</b></i>
+					</p>
+						
+					<p>
+					There is no fixed programming language for this course. The intent of the course is to study
+					the foundations of a programming language in terms of the abstractions it provides (functions, variables,
+					loops, types, etc.). These are common to most languages.
+						
+					That being said, there will be some programming assignments where students would be free
+					to choose their own programming language to complete them. A small note here is that some
+					programming assignments will be slightly easier in languages like OCaml or Rust (easier
+					to define recursive types) but that doesn't mean that the assignments cannot be implemented in
+					other languages.
+					</p>
+						
+					<p>
+					<i><b>Course Content: Is there a detailed syllabus available, e.g., topics covered, assignments, and major projects.</b></i>
+					</p>
+					
+					<p> 
+					The course is new and the syllabus is a bit flexible and I would collect feedback from students
+					and adjust the topics based on that. However, here are some high-level topics:
+					
+					<ul>
+					<li>lambda calculus</li>
+					<li>syntax, semantics, type system</li>
+					<li>progress and preservation</li>
+					<li>primitive and general recursion</li>
+					<li>concurrency theory</li>
+					<li>message-passing concurrency</li>
+					<li>shared-memory concurrency</li>
+					<li>linear types</li>
+					<li>session types</li>
+					</ul>
+						
+					There will be some written assignments and some programming assignments.
+					At this point, I don't plan to introduce major projects, but as I said, that might
+					change if many students are interested in doing a project.
+					</p>
+						 
+					<p>
+					<i><b>Teaching Style: Could you briefly describe your teaching style and whether the course emphasizes theory, practical implementation, or a combination of both?</b></i>
+					</p>
+
+					<p>
+					The course will certainly be emphasizing theory but implementation will also be a major component.
+					For each topic covered, we will first study the theory behind it and then implement them in your
+					language of choice.
+					</p>
+
+					<p>
+					<i><b>Coursework: What types of programming assignments can students expect? Are they related to concurrency problems or parallel program development?</b></i>
+					</p>
+
+					<p>
+						No, the programming assignments will be more about concurrency than parallelism.
+						This course will be highlighting the challenges that concurrency introduces instead
+						of the benefits that parallel programming provides. The latter is an important point
+						and will be covered in a lecture but not be the central focus.
+					</p>
+
+					<p>
+					<i><b>Readings: Are there any recommended readings or materials that can provide deeper insights into this?</b></i>
+					</p>
+
+					<p>
+						As far as reading material goes, I am working on lecture notes that will be the
+						most relevant. As I introduce various topics, I will post some optional reading
+						material but the lecture notes will be the most relevant.
+					</p>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+	<!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Ankush Das 2020. Template can be found <a onclick="window.open(this.href); return false;" title="https://startbootstrap.com/templates/scrolling-nav/" href="https://startbootstrap.com/templates/scrolling-nav/" onkeypress="window.open(this.href); return false;"><span style="color:dodgerblue;">here</span></a>.</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom JavaScript for this theme -->
+  <script src="js/scrolling-nav.js"></script>
+
+</body>
+
+</html>
+
+
+
