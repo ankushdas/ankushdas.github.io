@@ -1,0 +1,150 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with`a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{mathpartir}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{CS 599: Assignment 1}
+\author{YOUR NAME, BU ID}
+\date{}
+
+\newcommand{\lc}{$\lambda$-calculus}
+
+\newcommand{\m}[1]{\mathsf{#1}}
+\newcommand{\elam}[2]{\lambda{#1}.{#2}}
+\newcommand{\eapp}[2]{#1 \; #2}
+\newcommand{\step}{\mapsto}
+\newcommand{\val}[1]{#1 \; \m{value}}
+\newcommand{\eval}{\Downarrow}
+\newcommand{\num}[1]{\overline{#1}}
+\newcommand{\eif}[3]{\m{if} \; #1 \; \m{then} \; #2 \; \m{else} \; #3}
+\newcommand{\multval}[1]{#1 \; \m{mult{-}value}}
+
+\newtheorem{problem}{Problem}
+\newenvironment{solution}{\textbf{Solution.}}{}
+
+
+\begin{document}
+\maketitle
+
+\begin{problem}[5 pts]
+    In class, we looked at a simple arithmetic expression language. Similarly, for this assignment, we will study
+    a simple boolean expression language. This language contains 3 expressions written using the following syntax:
+    \[
+        \text{Expressions} \quad e ::= \m{true} \mid \m{false} \mid \eif{e}{e}{e}
+    \]
+    The first two expressions are just the values true and false respectively. The expression $\eif{b}{e_1}{e_2}$
+    describes the standard $\m{if}$ behavior, i.e., if $b$ evaluates to true, then the expression reduces to $e_1$,
+    else if $b$ evaluates to false, then the expression reduces to $e_2$.
+
+    \begin{itemize}
+        \item[(3 pts)] Write and explain each rule of semantics for this language. Note that the semantics will be written
+        using the two standard judgments: $\val{e}$ and $e \step e'$.
+        
+        \item[(2 pts)] Consider the following expression:
+        \[
+            \eif{(\eif{\m{true}}{\m{false}}{\m{true}})}{(\eif{\m{false}}{\m{false}}{\m{true}})}{(\eif{\m{true}}{\m{true}}{\m{false}})}
+        \]
+        Evaluate this expression using the rules of the semantics you just defined above.
+    \end{itemize}
+\end{problem}
+
+\begin{solution}
+
+\end{solution}
+
+
+\begin{problem}[16 pts]
+    Now, we will try to express booleans using \lc{}. The general technique is to represent the two values, i.e., true and false using
+    normal forms (or values) in \lc{}. Furthermore, they should be closed, that is, not contain any free variables. Since we need to
+    distinguish between the two values, we need to introduce two variables.
+    We then define rather arbitrarily one to be true and the other to be false
+    \[
+        \m{true} = \elam{x}{\elam{y}{x}} \qquad
+        \m{false} = \elam{x}{\elam{y}{y}}
+    \]
+
+    \begin{itemize}
+        \item[(8 pts)] Our first task is to express the $\m{if}$ expression defined in the previous problem in \lc{}. To do this,
+        let's consider two constants, $T$ and $E$. $T$ represents the expression for the `then' branch, while $E$ represents the
+        expression for the `else' branch. In other words, construct the expression $\eif{b}{T}{E}$ in \lc{}, i.e., using $\lambda$
+        expressions, function applications, and variables.
+
+        \item[(2 pts)] Verify that the expression you constructed is indeed equivalent to $\eif{b}{T}{E}$. To do this, suppose the
+        expression you constructed above is $I$. Then, $\eapp{(\elam{b}{I})}{\m{true}}$ should evaluate to $T$.
+        And similarly, $\eapp{(\elam{b}{I})}{\m{false}}$ should evaluate to $E$, where $\m{true}$ and $\m{false}$ are the expressions
+        above. Evaluate these two expressions using the semantics rules of \lc{} to verify that they indeed evaluate to $T$ and $F$
+        respectively.
+        
+        \item[(6 pts)] Use the expression above to construct the $\m{and}$, $\m{or}$, and $\m{not}$ functions.
+        \begin{itemize}
+            \item $\m{and}$ should have the form $\elam{b_1}{\elam{b_2}{\ldots}}$. It takes two booleans as parameters and returns
+            a boolean.
+            \item Similarly, $\m{or}$ should have the same form.
+            \item $\m{not}$ should have the form $\elam{b}{\ldots}$, i.e., takes a boolean as a parameter and returns a boolean.
+        \end{itemize}
+    \end{itemize}
+\end{problem}
+
+\begin{solution}
+    
+\end{solution}
+
+
+\begin{problem}[4 pts]
+    Consider the following expression, popularly known as the Y-combinator, defined as
+    $\eapp{(\elam{x}{\eapp{x}{x}})}{(\elam{x}{\eapp{x}{x}})}$.
+    What does this expression evaluate to? Show each step of the evaluation. Is this expression a value or not?
+    Does this violate the progress theorem we discussed in the lecture?
+\end{problem}
+
+\begin{solution}
+    
+\end{solution}
+
+
+\begin{problem}[25 pts]
+    Let's return to the LL1 language discussed in the lecture. We now add an expression for multiplication in the language,
+    so the formal syntax is
+    \[
+        \text{Expressions} \quad e ::= \num{n} \mid e + e \mid e \times e
+    \]
+
+    \begin{itemize}
+        \item[(5 pts)] First, define the rules of (small-step) semantics for this language.
+        
+        \item[(5 pts)] You will notice there is some non-determinism in the semantics rules, i.e., for a given expression $e$,
+        it will evaluate to two different values based on the order in which the rules are applied. Give an example of such an
+        expression $e$ and show that it evaluates to two different values in two different derivations.
+        Again, show each step of the derivation.
+
+        \item[(10 pts)] Our goal is to eliminate this non-determinism. For this, we have to come up with evaluation precedence,
+        i.e., the order in which operators are applied. We arbitrarily decide that multiplication has higher precedence than
+        addition, i.e., \textbf{all multiplication must occur before any addition}. Define the semantics rules for such an evaluation.
+        \textbf{Hint:} It might help to define an auxiliary judgment: $\multval{e}$, which holds iff expression $e$ contains
+        no addition operators.
+
+        \item[(5 pts)] Take the same expression $e$ defined in sub-task 2 and evaluate it using the semantics rules defined
+        in sub-task 3. Is there still any non-determinism in these rules? Can $e$ still evaluate to different values?
+    \end{itemize}
+\end{problem}
+
+\begin{solution}
+
+\end{solution}
+
+
+
+
+
+\end{document}
