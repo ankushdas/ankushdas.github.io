@@ -74,7 +74,7 @@ Solve the following problems for LL1:
         \item[(5 pts)] Define the rules of the big-step semantics for LL1. Again, you can use the $\preceq$ and $\neg$
         operators to compare integer/float values.
         
-        \item[(10 pts)] Is the LL1 language type safe? Either prove the progress and preservation theorems for LL1
+        \item[(20 pts)] Is the LL1 language type safe? Either prove the progress and preservation theorems for LL1
         or show a counterexample expression $e$ that violates either the progress or the preservation theorem.
 
         [Preservation Theorem]:\\
@@ -82,25 +82,6 @@ Solve the following problems for LL1:
 
         [Progress Theorem]:\\
         If $\cdot \vdash e : \tau$ then either $e \step e'$ or $\val{e}$.
-
-        \item[(10 pts)] Prove the equivalence of the small-step and big-step semantics. To do this, we need to define
-        a new judgment $e \mstep e'$ which is the reflexive transitive closure of $e \step e'$. Formally,
-        \begin{mathpar}
-            \inferrule*[right=Refl]
-            { }
-            {e \mstep e}
-            \and
-            \inferrule*[right=Trans]
-            {e_1 \mstep e_2 \and e_2 \mstep e_3}
-            {e_1 \mstep e_3}
-            \and
-            \inferrule*[right=Step]
-            {e_1 \step e_2}
-            {e_1 \mstep e_2}
-        \end{mathpar}
-
-        Write the theorem statement demonstrating the equivalence of the small-step and big-step semantics and then
-        prove it.
         
     \end{itemize}
 \end{problem}
