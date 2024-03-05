@@ -1,0 +1,142 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with`a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{mathpartir}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily}
+\usepackage{courier}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{CS 599 D1: Assignment 3}
+\author{YOUR NAME, BU ID}
+\date{}
+
+\newcommand{\lc}{$\lambda$-calculus}
+
+\newcommand{\m}[1]{\mathsf{#1}}
+\newcommand{\mi}[1]{\mathit{#1}}
+\newcommand{\mb}[1]{\mathbf{#1}}
+\newcommand{\mt}[1]{\mathtt{#1}}
+\newcommand{\elam}[2]{\lambda{#1}.\,{#2}}
+\newcommand{\eapp}[2]{#1 \; #2}
+\newcommand{\step}{\mapsto}
+\newcommand{\val}[1]{#1 \; \m{value}}
+\newcommand{\eval}{\Downarrow}
+\newcommand{\num}[1]{\overline{#1}}
+\newcommand{\numf}[1]{\underline{#1}}
+\newcommand{\eif}[3]{\m{if} \; #1 \; \m{then} \; #2 \; \m{else} \; #3}
+\newcommand{\multval}[1]{#1 \; \m{mult{-}value}}
+\newcommand{\closed}[1]{#1 \; \m{closed}}
+\newcommand{\tint}{\m{int}}
+\newcommand{\tbool}{\m{bool}}
+\newcommand{\elet}[3]{\m{let} \; #1 = #2 \; \m{in} \; #3}
+\newcommand{\G}{\Gamma}
+\newcommand{\R}[1]{\textcolor{red}{#1}}
+\newcommand{\tfloat}{\m{float}}
+\newcommand{\emptybox}{\boxed{\textcolor{white}{QWERTY}}}
+\newcommand{\mstep}{\step^{*}}
+\newcommand{\zero}{\m{zero}}
+\renewcommand{\succ}[1]{\m{succ}(#1)}
+\newcommand{\semi}{\,;\,}
+\newcommand{\natrec}[5]{\m{natrec}(#1 \semi #2 \semi #3.\, #4. \, #5)}
+\newcommand{\tnat}{\m{nat}}
+\newcommand{\Red}{\m{Red}}
+\newcommand{\natred}[1]{#1 \downarrow}
+\newcommand{\issubst}{\Vdash}
+\newcommand{\ift}{\m{int{-}or{-}float}}
+\newcommand{\ecase}[3]{\m{case} \; #1 \; (#2 \Rightarrow #3)}
+\newcommand{\case}[2]{\m{case} \; #1 \; (#2)}
+\newcommand{\erecv}[2]{#2 \leftarrow \m{recv} \; #1}
+\newcommand{\esend}[2]{\m{send} \; #1 \; #2}
+\newcommand{\ewait}[1]{\m{wait} \; #1}
+\newcommand{\eclose}[1]{\m{close} \; #1}
+\newcommand{\fwd}[2]{#1 \leftrightarrow #2}
+\newcommand{\espawn}[3]{#1 \leftarrow #2 \; #3}
+\newcommand{\ichoice}[1]{\oplus\{#1\}}
+\newcommand{\echoice}[1]{\&\{#1\}}
+\newcommand{\with}{\,\&\,}
+\newcommand{\one}{\mathbf{1}}
+\newcommand{\tensor}{\otimes}
+\newcommand{\lolli}{\multimap}
+
+\newtheorem{problem}{Problem}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+\newenvironment{solution}{\textbf{Solution.}}{}
+
+
+\begin{document}
+\maketitle
+
+
+\begin{problem}[10 pts]
+  Define a process called $\mt{increment}$ that has the following signature:
+  \begin{lstlisting}
+    decl increment: (x : bin) |- (y : bin)
+  \end{lstlisting}
+  The process uses a binary number $x$ as input and produces a binary number $y$ such that $y = x + 1$.
+\end{problem}
+
+\begin{solution}
+
+\end{solution}
+
+\begin{problem}[15 pts]
+  First, define a $\mt{map}$ process with the following signature:
+  \begin{lstlisting}
+    decl map : (a : listA), (m : mapperAB) |- (b : listB)
+  \end{lstlisting}
+  The process uses a list $\mt{a : listA}$ and a mapper to produce a list $\mt{b : listB}$. For each element in $\mt{a}$,
+  the $\mt{map}$ process sends the element of type $A$ to the mapper, receives an element of type $B$ which is then sent
+  on the offered channel $\mt{b}$.
+\end{problem}
+
+\begin{solution}
+  
+\end{solution}
+
+\begin{problem}[15 pts]
+  Define a process called $\mt{mapinc}$ with the following signature:
+  \begin{lstlisting}
+    decl mapinc : . |- (m : binmapper)
+  \end{lstlisting}
+  This process receives binary numbers from $m$, increments them and sends them back to $m$.
+  Remember that you have already defined the $\mt{increment}$ process for binary numbers.
+  Be sure to call it to actually increment the binary number!
+\end{problem}
+
+\begin{solution}
+  
+\end{solution}
+
+\begin{problem}[10 pts]
+  Finally, define a process called $\mt{listinc}$ with the following signature:
+  \begin{lstlisting}
+    decl listinc : (a : binlist) |- (b : binlist)
+  \end{lstlisting}
+  This process uses a list $\mt{a : binlist}$ and increments each element to produce list $\mt{b : binlist}$.
+  Instead of incrementing the elements on the list directly, use the $\mt{map}$ and $\mt{mapinc}$ processes 
+  you defined earlier! You can assume the following type for the $\mt{map}$ process:
+  \begin{lstlisting}
+    decl map : (a : binlist), (m : binmapper) |- (b : binlist)
+  \end{lstlisting}
+\end{problem}
+
+\begin{solution}
+  
+\end{solution}
+
+
+\end{document}
