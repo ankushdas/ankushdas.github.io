@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<meta name="google-site-verification" content="HbuYYxmx82KvIPdo8h5v7cFE-tOwnyKFyW3Q_FSmvyo" />
+
+	<title>CS 599</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Custom styles for this template -->
+	<link href="css/scrolling-nav.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+	<!-- Navigation -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+		<div class="container">
+			<!-- Name on the side in the nav bar -->
+			<a class="navbar-brand js-scroll-trigger" href="index.html#page-top">Ankush Das</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+				aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link js-scroll-trigger" href="CS599-S24.html#about">CS 599</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link js-scroll-trigger" href="CS599-S24.html#schedule">Schedule</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link js-scroll-trigger" href="CS599-S24.html#assignments">Assignments</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link js-scroll-trigger" href="CS599-S24.html#evaluation">Evaluation</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link js-scroll-trigger" href="CS599-S24.html#faqs">FAQs</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link js-scroll-trigger" href="CS599-S24.html#policies">Policies</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<header class="bg-primary text-black">
+	</header>
+
+	<section id="about" class="bg-light">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-10 mx-auto">
+					<h2 style="padding-bottom: 2%;">CS 599 D1: Programming Language Foundations for Concurrency, Spring
+						2024</h2>
+
+					<h4 style="padding-bottom: 1%;">
+						Course Overview
+					</h4>
+					<p>
+						Software systems around us are getting more and more complex by the day
+						with multi-processor systems, microservices, and distributed programming.
+						At the center of all this complexity lies concurrency, i.e., processes
+						can execute in arbitrary orders and failures (e.g., network faults, node crashes, etc.)
+						are pervasive.
+						Building software systems is no longer straightforward (probably never was)
+						and the issues introduced by concurrency cannot be ignored.
+						This course will study the foundations of where these challenges arise from
+						and will equip students with tools to handle these challenges.
+					</p>
+
+					<p>
+						The ultimate goal is for students to build robust concurrent software systems
+						using state-of-the-art PL tools and techniques.
+					</p>
+
+
+					<table style="width:100%">
+						<colgroup>
+							<col span="1" style="width: 15%;">
+							<col span="1" style="width: 85%;">
+						</colgroup>
+
+						<tr>
+							<td valign="top"><b>Instructor:</b></td>
+							<td style="text-align: justify;"><a href="https://ankushdas.github.io/">Ankush Das</a>,
+								ankushd [at] bu [dot] edu</td>
+						</tr>
+
+						<tr>
+							<td valign="top"><b>Class Schedule:</b></td>
+							<td style="text-align: justify;">Mon & Wed, 4:30pm - 5:45pm</td>
+						</tr>
+
+						<tr>
+							<td valign="top"><b>Class Location:</b></td>
+							<td style="text-align: justify;">MCS B29</td>
+						</tr>
+
+						<tr>
+							<td valign="top"><b>Office Hours:</b></td>
+							<td style="text-align: justify;">Wed, 9am - 10am, CDS 721 (or with appointment with
+								instructor)</td>
+						</tr>
+
+						<tr>
+							<td valign="top"><b>Piazza:</b></td>
+							<td style="text-align: justify;">Please join the class using the following link:
+								<a onclick="window.open(this.href); return false;"
+									title="https://piazza.com/bu/spring2024/cs599d1"
+									onkeypress="window.open(this.href); return false;"
+									href="https://piazza.com/bu/spring2024/cs599d1"><span style="color: mediumblue;">
+										https://piazza.com/bu/spring2024/cs599d1</span></a>. We will be using Piazza for
+								class announcements
+								and discussions.
+							</td>
+						</tr>
+
+						<tr>
+							<td valign="top"><b>Gradescope:</b></td>
+							<td style="text-align: justify;">
+								Please sign up for a student account on <a
+									onclick="window.open(this.href); return false;" title="https://gradescope.com"
+									onkeypress="window.open(this.href); return false;"
+									href="https://gradescope.com"><span style="color: mediumblue;">
+										https://gradescope.com</span></a> using your BU email address. The entry code
+								for the course is XX438J. Homework assignments are to be submitted to Gradescope in PDF
+								format.</td>
+						</tr>
+
+						<tr>
+							<td valign="top"><b>Course Website:</b></td>
+							<td style="text-align: justify;">
+								<a href="https://ankushdas.github.io/CS599-S24.html"><span style="color: mediumblue;">
+										https://ankushdas.github.io/CS599-S24.html</span></a>
+							</td>
+						</tr>
+					</table>
+
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="schedule" class="bg-light">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-10 mx-auto">
+
+					<h4 style="padding-bottom: 1%;">
+						Course Schedule
+					</h4>
+
+					<p><i>Will be updated regularly!</i></p>
+
+					<table style="width:100%" border="2">
+						<tr>
+							<th style="padding-left: 1%">Date</th>
+							<th style="padding-left: 1%">Topics</th>
+							<th style="padding-left: 1%">Lecture Notes</th>
+							<th style="padding-left: 1%">Further Reading</th>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Jan 22, 2024</td>
+							<td style="padding-left: 1%">LL1: A Language for Arithmetic Expressions</td>
+							<td style="padding-left: 1%">
+								<a href="lectures/lec1.pdf"><span style="color: mediumblue;">Lecture 1</span></a>
+							</td>
+							<td></td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Jan 24, 2024</td>
+							<td style="padding-left: 1%">Untyped Lambda Calculus</td>
+							<td style="padding-left: 1%">
+								<a href="lectures/lec2.pdf"><span style="color: mediumblue;">Lecture 2</span></a>
+							</td>
+							<td style="padding-left: 1%"></td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Jan 29, 2024</td>
+							<td style="padding-left: 1%">An Introduction to Types</td>
+							<td style="padding-left: 1%">
+								<a href="lectures/lec3.pdf"><span style="color: mediumblue;">Lecture 3</span></a>
+							</td>
+							<td></td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Jan 31, 2024</td>
+							<td style="padding-left: 1%">Simply-Typed Lambda Calculus</td>
+							<td style="padding-left: 1%">
+								<a href="lectures/lec4.pdf"><span style="color: mediumblue;">Lecture 4</span></a>
+							</td>
+							<td></td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Feb 5, 2024</td>
+							<td style="padding-left: 1%">Substructural Inference and Logic</td>
+							<td style="padding-left: 1%">TBA</td>
+							<td style="padding-left: 1%"><a
+									href="https://www.cs.cmu.edu/~fp/courses/15836-f23/lectures/01-ephemeral.pdf">Notes
+									by Frank Pfenning</a></td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Feb 7, 2024</td>
+							<td style="padding-left: 1%">Linear and Ordered Inference</td>
+							<td style="padding-left: 1%">TBA</td>
+							<td style="padding-left: 1%"><a
+									href="https://www.cs.cmu.edu/~fp/courses/15836-f23/lectures/02-connectives.pdf">Notes
+									by Frank Pfenning</a></td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Feb 12, 2024</td>
+							<td style="padding-left: 1%">Harmony: Identity and Cut Admissibility</td>
+							<td style="padding-left: 1%">TBA</td>
+							<td style="padding-left: 1%"><a
+									href="https://www.cs.cmu.edu/~fp/courses/15836-f23/lectures/03-cutelim.pdf">Notes by
+									Frank Pfenning</a></td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Feb 19, 2024</td>
+							<td style="padding-left: 1%">President's Day: No Lecture</td>
+							<td style="padding-left: 1%"></td>
+							<td style="padding-left: 1%"></td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Feb 21, 2024</td>
+							<td style="padding-left: 1%">Session Typed Proof Terms</td>
+							<td style="padding-left: 1%">TBA</td>
+							<td style="padding-left: 1%"><a href="https://ankushdas.github.io/docs/thesis.pdf">Chapter
+									2.1 from PhD Thesis</a></td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Feb 26, 2024</td>
+							<td style="padding-left: 1%">Session Typed Proof Terms (Continued)</td>
+							<td style="padding-left: 1%">TBA</td>
+							<td style="padding-left: 1%"><a href="https://ankushdas.github.io/docs/thesis.pdf">Chapter
+									2.1 from PhD Thesis</a></td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Mar 4, 2024</td>
+							<td style="padding-left: 1%">Mid-Term</td>
+							<td style="padding-left: 1%">NA</td>
+							<td style="padding-left: 1%"></td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Mar 6, 2024</td>
+							<td style="padding-left: 1%">Mid-Term Discussion</td>
+							<td style="padding-left: 1%">TBA</td>
+							<td style="padding-left: 1%"><a href="https://ankushdas.github.io/docs/thesis.pdf">Chapter
+									2.1 from PhD Thesis</a></td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Mar 11, 2024</td>
+							<td style="padding-left: 1%">Spring Break</td>
+							<td style="padding-left: 1%"></td>
+							<td style="padding-left: 1%"></td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Mar 13, 2024</td>
+							<td style="padding-left: 1%">Spring Break</td>
+							<td style="padding-left: 1%"></td>
+							<td style="padding-left: 1%"></td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Mar 18, 2024</td>
+							<td style="padding-left: 1%">Semantics of Session Types</td>
+							<td style="padding-left: 1%">TBA</td>
+							<td style="padding-left: 1%"><a href="https://ankushdas.github.io/docs/thesis.pdf">Chapter
+									2.1 from PhD Thesis</a></td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Mar 20, 2024</td>
+							<td style="padding-left: 1%">Session Type Configurations</td>
+							<td style="padding-left: 1%">TBA</td>
+							<td style="padding-left: 1%"><a href="https://ankushdas.github.io/docs/thesis.pdf">Chapter
+									2.1 from PhD Thesis</a></td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Mar 25, 2024</td>
+							<td style="padding-left: 1%">Preservation Theorem</td>
+							<td style="padding-left: 1%">TBA</td>
+							<td style="padding-left: 1%"><a href="https://ankushdas.github.io/docs/thesis.pdf">Chapter
+									2.1 from PhD Thesis</a></td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Mar 27, 2024</td>
+							<td style="padding-left: 1%">Progress Theorem</td>
+							<td style="padding-left: 1%">TBA</td>
+							<td style="padding-left: 1%"><a href="https://ankushdas.github.io/docs/thesis.pdf">Chapter
+									2.1 from PhD Thesis</a></td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Apr 1, 2024</td>
+							<td style="padding-left: 1%">Co-Induction and Session Type Equality</td>
+							<td style="padding-left: 1%">TBA</td>
+							<td style="padding-left: 1%"><a
+									href="https://www.dcs.gla.ac.uk/~simon/publications/acta05.pdf">Subtyping for
+									Session Types</a></td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Apr 3, 2024</td>
+							<td style="padding-left: 1%">Refinement Session Types I</td>
+							<td style="padding-left: 1%">TBA</td>
+							<td style="padding-left: 1%"><a href="https://ankushdas.github.io/docs/thesis.pdf">Chapter 3
+									from PhD Thesis</a></td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Apr 8, 2024</td>
+							<td style="padding-left: 1%">Refinement Session Types II</td>
+							<td style="padding-left: 1%">TBA</td>
+							<td style="padding-left: 1%"><a href="https://ankushdas.github.io/docs/thesis.pdf">Chapter 3
+									from PhD Thesis</a></td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Apr 15, 2024</td>
+							<td style="padding-left: 1%">No Lecture</td>
+							<td style="padding-left: 1%"></td>
+							<td style="padding-left: 1%"></td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Apr 17, 2024</td>
+							<td style="padding-left: 1%">Refinement Types: Examples</td>
+							<td style="padding-left: 1%">TBA</td>
+							<td style="padding-left: 1%"><a href="https://ankushdas.github.io/docs/thesis.pdf">Chapter 3
+									from PhD Thesis</a></td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Apr 22, 2024</td>
+							<td style="padding-left: 1%">Shared Session Types</td>
+							<td style="padding-left: 1%">TBA</td>
+							<td style="padding-left: 1%"><a href="https://www.cs.cmu.edu/~fp/papers/icfp17.pdf">Balzer
+									et. al., ICFP 2017</a></td>
+						</tr>
+
+					</table>
+
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="assignments" class="bg-light">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-10 mx-auto">
+
+					<h4 style="padding-bottom: 1%;">
+						Assignment Schedule
+					</h4>
+
+					<table style="width:100%" border="2">
+						<tr>
+							<th style="padding-left: 1%">Release Date</th>
+							<th style="padding-left: 1%">Due Date</th>
+							<th style="padding-left: 1%">Assignment PDF</th>
+							<th style="padding-left: 1%">Template TEX</th>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Jan 22, 2024</td>
+							<td style="padding-left: 1%">Feb 7, 2024</td>
+							<td style="padding-left: 1%">
+								<a href="assignments/asgn1-problem.pdf"><span style="color: mediumblue;">Assignment
+										1</span></a>
+							</td>
+							<td style="padding-left: 1%">
+								<a href="assignments/asgn1.tex"><span style="color: mediumblue;">(Template 1)</span></a>
+							</td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Feb 7, 2024</td>
+							<td style="padding-left: 1%">Feb 21, 2024</td>
+							<td style="padding-left: 1%">
+								<a href="assignments/asgn2-problem.pdf"><span style="color: mediumblue;">Assignment
+										2</span></a>
+							</td>
+							<td style="padding-left: 1%">
+								<a href="assignments/asgn2.tex"><span style="color: mediumblue;">(Template 2)</span></a>
+							</td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Feb 27, 2024</td>
+							<td style="padding-left: 1%">NA</td>
+							<td style="padding-left: 1%">
+								<a href="assignments/mock-midterm.pdf"><span style="color: mediumblue;">Mock
+										Mid-Term</span></a>
+							</td>
+							<td style="padding-left: 1%">
+								<a href="assignments/mock-midterm-sol.pdf"><span style="color: mediumblue;">Mock
+										Mid-Term Solution</span></a>
+							</td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Mar 4, 2024</td>
+							<td style="padding-left: 1%">NA</td>
+							<td style="padding-left: 1%">
+								<a href="assignments/midterm-solution.pdf"><span style="color: mediumblue;">Mid-Term
+										Solution</span></a>
+							</td>
+							<td style="padding-left: 1%"></td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Mar 5, 2024</td>
+							<td style="padding-left: 1%">Mar 20, 2024</td>
+							<td style="padding-left: 1%">
+								<a href="assignments/asgn3-problem.pdf"><span style="color: mediumblue;">Assignment
+										3</span></a>
+							</td>
+							<td style="padding-left: 1%">
+								<a href="assignments/asgn3.tex"><span style="color: mediumblue;">(Template 3)</span></a>
+							</td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Mar 20, 2024</td>
+							<td style="padding-left: 1%">Apr 5, 2024</td>
+							<td style="padding-left: 1%">
+								<a href="assignments/asgn4-problem.pdf"><span style="color: mediumblue;">Assignment
+										4</span></a>
+							</td>
+							<td style="padding-left: 1%">
+								(<a href="assignments/asgn4.tex"><span style="color: mediumblue;">Template 4,
+									</span></a>
+								<a href="assignments/asgn4.rast"><span style="color: mediumblue;">Code 4</span></a>)
+							</td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Apr 5, 2024</td>
+							<td style="padding-left: 1%">Apr 22, 2024</td>
+							<td style="padding-left: 1%">
+								<a href="assignments/asgn5-problem.pdf"><span style="color: mediumblue;">Assignment
+										5</span></a>
+							</td>
+							<td style="padding-left: 1%"></td>
+						</tr>
+
+						<tr>
+							<td style="padding-left: 1%">Apr 22, 2024</td>
+							<td style="padding-left: 1%">May 1, 2024</td>
+							<td style="padding-left: 1%">
+								<a href="assignments/asgn6-problem.pdf"><span style="color: mediumblue;">Assignment
+										6</span></a>
+							</td>
+							<td style="padding-left: 1%"></td>
+						</tr>
+
+					</table>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="evaluation" class="bg-light">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-10 mx-auto">
+
+					<h4 style="padding-bottom: 1%;">
+						Course Evaluation
+					</h4>
+
+					<p>
+						The course grade will be calculated using homework assignments, a mid-term exam, and a final
+						exam.
+					</p>
+
+					<h5 style="padding-bottom: 1%;">
+						Homework (60%)
+					</h5>
+
+					<p>
+						There will be bi-weekly homework assignments due every other Wednesday at 11:59pm.
+						Homeworks can sometimes be challenging, so it is best to start early to give
+						yourself enough time to think attempt the problems and make best use of office hours.
+						Late homework can only be accepted in extraordinary circumstances and require approval from
+						instructor.
+					</p>
+
+					<p>
+						You are encouraged to collaborate with other students on solving the homework problems.
+						But you must write your solutions independently in your own words (or code).
+					</p>
+
+					<p>
+						I would strongly encourage students to typeset homework solutions using LaTeX which is the most
+						popular document
+						preparation system used in computer science publications. But students can use different
+						software such as MS Word
+						or handwrite solutions.
+
+						For your convenience, I will provide the LaTeX source for each assignment with instructions on
+						how to typeset
+						the solutions.
+					</p>
+
+					<h5 style="padding-bottom: 1%;">
+						Mid-Term (20%) and Final (20%) Exams
+					</h5>
+
+					<p>
+						Exams will be held in-person and you may bring handwritten (or printed) notes to the exam.
+						However, using other
+						means such as internet, ChatGPT, phones, laptops, etc. is strictly prohibited.
+					</p>
+
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="faqs" class="bg-light">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-10 mx-auto">
+
+					<h4 style="padding-bottom: 1%;">
+						Course FAQs
+					</h4>
+
+					<p>
+						<i><b>Programming Language: Could you clarify which programming language(s) will be used in the
+								course?</b></i>
+					</p>
+
+					<p>
+						There is no fixed programming language for this course. The intent of the course is to study
+						the foundations of a programming language in terms of the abstractions it provides (functions,
+						variables,
+						loops, types, etc.). These are common to most languages.
+
+						That being said, there will be some programming assignments where students would be free
+						to choose their own programming language to complete them. A small note here is that some
+						programming assignments will be slightly easier in languages like OCaml or Rust (easier
+						to define recursive types) but that doesn't mean that the assignments cannot be implemented in
+						other languages.
+					</p>
+
+					<p>
+						<i><b>Course Content: Is there a detailed syllabus available, e.g., topics covered, assignments,
+								and major projects.</b></i>
+					</p>
+
+					<p>
+						The course is new and the syllabus is a bit flexible and I would collect feedback from students
+						and adjust the topics based on that. However, here are some high-level topics:
+
+					<ul>
+						<li>lambda calculus</li>
+						<li>syntax, semantics, type system</li>
+						<li>progress and preservation</li>
+						<li>primitive and general recursion</li>
+						<li>concurrency theory</li>
+						<li>message-passing concurrency</li>
+						<li>shared-memory concurrency</li>
+						<li>linear types</li>
+						<li>session types</li>
+					</ul>
+
+					There will be some written assignments and some programming assignments.
+					At this point, I don't plan to introduce major projects, but as I said, that might
+					change if many students are interested in doing a project.
+					</p>
+
+					<p>
+						<i><b>Teaching Style: Could you briefly describe your teaching style and whether the course
+								emphasizes theory, practical implementation, or a combination of both?</b></i>
+					</p>
+
+					<p>
+						The course will certainly be emphasizing theory but implementation will also be a major
+						component.
+						For each topic covered, we will first study the theory behind it and then implement them in your
+						language of choice.
+					</p>
+
+					<p>
+						<i><b>Coursework: What types of programming assignments can students expect? Are they related to
+								concurrency problems or parallel program development?</b></i>
+					</p>
+
+					<p>
+						No, the programming assignments will be more about concurrency than parallelism.
+						This course will be highlighting the challenges that concurrency introduces instead
+						of the benefits that parallel programming provides. The latter is an important point
+						and will be covered in a lecture but not be the central focus.
+					</p>
+
+					<p>
+						<i><b>Readings: Are there any recommended readings or materials that can provide deeper insights
+								into this?</b></i>
+					</p>
+
+					<p>
+						As far as reading material goes, I am working on lecture notes that will be the
+						most relevant. As I introduce various topics, I will post some optional reading
+						material but the lecture notes will be the most relevant.
+					</p>
+
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="policies" class="bg-light">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-10 mx-auto">
+
+					<h4 style="padding-bottom: 1%;">
+						Course Policies
+					</h4>
+
+					<h5>Academic Conduct</h5>
+					<p>
+						All Boston University students are expected to maintain the highest standards of academic
+						integrity.
+						You can find important resources here:
+					<ul>
+						<li><a href="https://www.bu.edu/provost/students/undergraduate/academic-integrity/">
+								Academic Integrity</li>
+						<li><a href="https://www.bu.edu/ctl/university-policies/academic-conduct/">
+								Academic Conduct Code</a></li>
+					</ul>
+
+					</p>
+
+
+					<h5>Disability Services</h5>
+					<p>
+						Students with documented disabilities, including learning disabilities, may be entitled to
+						accommodations
+						intended to ensure that they have integrated and equal access to the academic, social, cultural,
+						and
+						recreational programs the university offers.
+						Accommodations may include, but are not limited to, additional time on tests, staggered homework
+						assignments,
+						note-taking assistance.
+						If you believe you should receive accommodations, please contact the Office of Disability
+						Services to discuss your situation.
+						This office can give you a letter that you can share with instructors of your classes outlining
+						the
+						accommodations you should receive.
+						The letter will not contain any information about the reason for the accommodations.
+					</p>
+
+					<p>Disability & Access Services
+						<br>
+						25 Buick Street, Suite 300
+						<br>
+						617-353-3658
+						<br>
+						access@bu.edu
+						<br>
+						<a href="http://www.bu.edu/disability/">http://www.bu.edu/disability/</a>
+					</p>
+
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Footer -->
+	<footer class="py-5 bg-dark">
+		<div class="container">
+			<p class="m-0 text-center text-white">Copyright &copy; Ankush Das 2020. Template can be found <a
+					onclick="window.open(this.href); return false;"
+					title="https://startbootstrap.com/templates/scrolling-nav/"
+					href="https://startbootstrap.com/templates/scrolling-nav/"
+					onkeypress="window.open(this.href); return false;"><span style="color:dodgerblue;">here</span></a>.
+			</p>
+		</div>
+		<!-- /.container -->
+	</footer>
+
+	<!-- Bootstrap core JavaScript -->
+	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Plugin JavaScript -->
+	<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+	<!-- Custom JavaScript for this theme -->
+	<script src="js/scrolling-nav.js"></script>
+
+</body>
+
+</html>
