@@ -1,0 +1,285 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with`a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=1in,bottom=1in,left=1in,right=1in]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{mathpartir}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{CS 599 A1: Assignment 1}
+\author{YOUR NAME, BU ID}
+\date{}
+
+\newcommand{\lc}{$\lambda$-calculus}
+
+\newcommand{\m}[1]{\mathsf{#1}}
+\newcommand{\mi}[1]{\mathit{#1}}
+\newcommand{\mb}[1]{\mathbf{#1}}
+\newcommand{\mt}[1]{\mathtt{#1}}
+\newcommand{\elam}[2]{\lambda{#1}.\,{#2}}
+\newcommand{\eapp}[2]{#1 \; #2}
+\newcommand{\step}{\mapsto}
+\newcommand{\val}[1]{#1 \; \m{value}}
+\newcommand{\eval}{\Downarrow}
+\newcommand{\num}[1]{\overline{#1}}
+\newcommand{\numf}[1]{\underline{#1}}
+\newcommand{\eif}[3]{\m{if} \; #1 \; \m{then} \; #2 \; \m{else} \; #3}
+\newcommand{\multval}[1]{#1 \; \m{mult{-}value}}
+\newcommand{\closed}[1]{#1 \; \m{closed}}
+\newcommand{\tint}{\m{int}}
+\newcommand{\tbool}{\m{bool}}
+\newcommand{\elet}[3]{\m{let} \; #1 = #2 \; \m{in} \; #3}
+\newcommand{\G}{\Gamma}
+\newcommand{\R}[1]{\textcolor{red}{#1}}
+\newcommand{\tfloat}{\m{float}}
+\newcommand{\emptybox}{\boxed{\textcolor{white}{QWERTY}}}
+\newcommand{\mstep}{\step^{*}}
+\newcommand{\zero}{\m{zero}}
+\renewcommand{\succ}[1]{\m{succ}(#1)}
+\newcommand{\semi}{\,;\,}
+\newcommand{\natrec}[5]{\m{natrec}(#1 \semi #2 \semi #3.\, #4. \, #5)}
+\newcommand{\tnat}{\m{nat}}
+\newcommand{\Red}{\m{Red}}
+\newcommand{\natred}[1]{#1 \downarrow}
+\newcommand{\issubst}{\Vdash}
+\newcommand{\ift}{\m{int{-}or{-}float}}
+\newcommand{\ecase}[3]{\m{case} \; #1 \; (#2 \Rightarrow #3)}
+\newcommand{\case}[2]{\m{case} \; #1 \; (#2)}
+\newcommand{\erecv}[2]{#2 \leftarrow \m{recv} \; #1}
+\newcommand{\esend}[2]{\m{send} \; #1 \; #2}
+\newcommand{\esendl}[2]{#1.#2}
+\newcommand{\ewait}[1]{\m{wait} \; #1}
+\newcommand{\eclose}[1]{\m{close} \; #1}
+\newcommand{\fwd}[2]{#1 \leftrightarrow #2}
+\newcommand{\espawn}[3]{#1 \leftarrow #2 \; #3}
+\newcommand{\ichoice}[1]{\oplus\{#1\}}
+\newcommand{\echoice}[1]{\&\{#1\}}
+\newcommand{\with}{\,\&\,}
+\newcommand{\one}{\mathbf{1}}
+\newcommand{\tensor}{\otimes}
+\newcommand{\lolli}{\multimap}
+\newcommand{\config}{\mathcal{C}}
+\newcommand{\dc}{\mathcal{D}}
+\newcommand{\D}{\Delta}
+\newcommand{\T}{\Theta}
+\newcommand{\poised}[1]{#1 \; \m{poised}}
+\newcommand{\proc}[2]{\m{proc}(#1, #2)}
+\newcommand{\msg}[2]{\m{msg}(#1, #2)}
+\newcommand{\fresh}[1]{(#1 \; \m{fresh})}
+
+\newcommand{\cons}{\mathcal{C}}
+\newcommand{\vars}{\mathcal{V}}
+\newcommand{\proves}{\vDash}
+
+\newcommand{\tforall}[1]{\forall #1. \, }
+\newcommand{\texists}[1]{\exists #1. \, }
+\newcommand{\tassertop}{{?}}  % -fp was: ?
+\newcommand{\tassumeop}{{!}}  % -fp was: !
+\newcommand{\tassert}[1]{\tassertop\{#1\}. \,} % -fp was: \; \tassertop
+\newcommand{\tassume}[1]{\tassumeop\{#1\}. \,} % -fp was: \; \tassumeop
+
+\newcommand{\esendn}[2]{\m{send} \; #1 \; \{#2\}}
+\newcommand{\erecvn}[2]{\{#2\} \leftarrow \m{recv} \; #1}
+\newcommand{\eassume}[2]{\m{assume} \; #1 \; \{#2\}}
+\newcommand{\eassert}[2]{\m{assert} \; #1 \; \{#2\}}
+\newcommand{\eimposs}{\m{impossible}}
+
+\newtheorem{problem}{Problem}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+\newenvironment{solution}{\textbf{Solution.}}{}
+
+
+\begin{document}
+\maketitle
+
+\section{Booleans [34 pts]}
+
+\begin{problem}[9 pts]
+    In class, we looked at a simple arithmetic expression language called LL1. Similarly, for this assignment, we will study
+    a simple boolean expression language LH1. This language contains 3 expressions written using the following syntax:
+    \[
+        \text{Expressions} \quad e ::= \m{true} \mid \m{false} \mid \eif{e}{e}{e}
+    \]
+    The first two expressions are just the values true and false respectively. The expression $\eif{b}{e_1}{e_2}$
+    describes the standard $\m{if}$ behavior, i.e., if $b$ evaluates to true, then the expression reduces to $e_1$,
+    else if $b$ evaluates to false, then the expression reduces to $e_2$.
+
+    \begin{itemize}
+        \item[(5 pts)] Write and explain each rule of semantics for LH1. Note that the semantics will be written
+        using the two standard judgments: $\val{e}$ and $e \step e'$.
+        
+        \item[(4 pts)] Consider the following expression:
+        \[
+            \eif{(\eif{\m{true}}{\m{false}}{\m{true}})}{(\eif{\m{false}}{\m{false}}{\m{true}})}{(\eif{\m{true}}{\m{true}}{\m{false}})}
+        \]
+        Evaluate this expression using the rules of the semantics you just defined above.
+    \end{itemize}
+\end{problem}
+
+\begin{solution}
+    YOUR SOLUTION GOES HERE
+\end{solution}
+
+
+\begin{problem}[25 pts]
+    Now, we will try to express booleans using \lc{}. The general technique is to represent the two values, i.e., true and false using
+    normal forms (or values) in \lc{}. Furthermore, they should be closed, that is, not contain any free variables. Since we need to
+    distinguish between the two values, we need to introduce two variables.
+    We then define rather arbitrarily one to be true and the other to be false
+    \[
+        \m{true} = \elam{x}{\elam{y}{x}} \qquad
+        \m{false} = \elam{x}{\elam{y}{y}}
+    \]
+
+    \begin{itemize}
+        \item[(10 pts)] Our first task is to express the $\m{if}$ expression defined in the previous problem in \lc{}. To do this,
+        let's consider two constants, $T$ and $E$. $T$ represents the expression for the `then' branch, while $E$ represents the
+        expression for the `else' branch. In other words, construct the expression $\eif{b}{T}{E}$ in \lc{}, i.e., using $\lambda$
+        expressions, function applications, and variables.
+
+        \item[(5 pts)] Verify that the expression you constructed is indeed equivalent to $\eif{b}{T}{E}$. To do this, suppose the
+        expression you constructed above is $I$. Then, $\eapp{(\elam{b}{I})}{\m{true}}$ should evaluate to $T$.
+        And similarly, $\eapp{(\elam{b}{I})}{\m{false}}$ should evaluate to $E$, where $\m{true}$ and $\m{false}$ are the expressions
+        above. Evaluate these two expressions using the semantics rules of \lc{} to verify that they indeed evaluate to $T$ and $F$
+        respectively.
+        
+        \item[(10 pts)] Use the expression above to construct the $\m{and}$ and $\m{not}$ functions.
+        \begin{itemize}
+            \item $\m{and}$ should have the form $\elam{b_1}{\elam{b_2}{\ldots}}$. It takes two booleans as parameters and returns
+            a boolean.
+            \item $\m{not}$ should have the form $\elam{b}{\ldots}$, i.e., takes a boolean as a parameter and returns a boolean.
+        \end{itemize}
+    \end{itemize}
+\end{problem}
+
+\begin{solution}
+    YOUR SOLUTION GOES HERE
+\end{solution}
+
+\section{More Arithmetic in LL1 [50 pts]} 
+
+
+\begin{problem}[30 pts]
+    Let's return to the LL1 language discussed and now add an expression for multiplication in the language,
+    so the formal syntax is
+    \[
+        \text{Expressions} \quad e ::= \num{n} \mid e \oplus e \mid e \otimes e
+    \]
+    We call this language LH2.
+
+    \begin{itemize}
+        \item[(5 pts)] First, define the rules of (small-step) semantics for LH2.
+        
+        \item[(10 pts)] You will notice there is some non-determinism in the semantics rules, i.e., for a given expression $e$,
+        it will evaluate to two different values based on the order in which the rules are applied. Give an example of such an
+        expression $e$ and show that it evaluates to two different values in two different derivations.
+        Again, show each step of the derivation.
+
+        \item[(10 pts)] Our goal is to eliminate this non-determinism. For this, we have to come up with evaluation precedence,
+        i.e., the order in which operators are applied. We arbitrarily decide that multiplication has higher precedence than
+        addition, i.e., \textbf{all multiplication must occur before any addition}. Define the semantics rules for such an evaluation.
+        \textbf{Hint:} It might help to define an auxiliary judgment: $\multval{e}$, which holds iff expression $e$ contains
+        no addition operators.
+
+        \item[(5 pts)] Take the same expression $e$ defined in sub-task 2 and evaluate it using the semantics rules defined
+        in sub-task 3. Is there still any non-determinism in these rules? Can $e$ still evaluate to different values?
+    \end{itemize}
+\end{problem}
+
+\begin{solution}
+    YOUR SOLUTION GOES HERE
+\end{solution}
+
+
+\begin{problem}[20 pts]
+    Now, let's add floating-point numbers to LL1 and a few more changes.
+    \begin{align*}
+        \text{Expressions} \quad & e ::= \m{true} \mid \m{false} \mid \eif{e}{e}{e} \mid \num{n} \mid \boxed{\numf{n}} \mid \boxed{e \oplus e} \mid \elet{x}{e}{e} \mid x \\
+        \text{Types} \quad & \tau ::= \tbool \mid \tint \mid \boxed{\tfloat}
+    \end{align*}
+    As you can notice, there is a new type for floating-point expressions.
+    In addition, we modify the behavior of the addition operation $\oplus$.
+    For integers and floats, the $\oplus$ operator is standard `addition' with \textbf{the
+    important caveat that the $\oplus$ operator can be used to add integers with floats}.
+    Integers and floats can be on either side of the operator and adding an integer with a float
+    will result in a float.
+    We also introduce $\numf{n}$ to represent floating-point values.
+    We call this language LH3.
+
+%     To prove the theorems in this problem, you can use (without proving) the following lemma.
+
+%     \begin{lemma}[Canonical Forms]
+%       For a well-typed expression $e$ such that $\G \vdash e : \tau$
+%       \begin{itemize}
+%         \item If $\tau$ is $\tbool$, then $e = \m{true}$ or $e = \m{false}$.
+%         \item If $\tau$ is $\tint$, then $e = \num{n}$ for some $n$.
+%         \item If $\tau$ is $\tfloat$, then $e = \numf{n}$ for some $n$.
+%       \end{itemize}
+%     \end{lemma}
+
+
+Solve the following problems for LH3:
+
+    \begin{itemize}
+        \item[(10 pts)] Define the rules of the type system for LH3. Although not necessary, but try to use as
+        few rules as possible.
+        
+        \item[(10 pts)] Define the rules of the small-step semantics for LH3. To define the semantics, you can use the $+$
+        operator to add integer/float values.
+    \end{itemize}
+\end{problem}
+
+\begin{solution}
+    YOUR SOLUTION GOES HERE
+\end{solution}
+
+\section{More Practice with \lc{} [16 pts]}
+
+\begin{problem}[16 pts]
+    In this problem, fill in the blanks to make the following typing judgments in \lc{} valid, or briefly explain
+    that it is impossible to do so. This might require defining either (i) an expression with a given type,
+    or (ii) the typing context for an expression,
+    or (iii) the type of a given expression in a typing context,
+    or (iv) a combination of the above. (2 pts each)
+
+    \begin{enumerate}
+        \item $\cdot \vdash \emptybox : \alpha \rightarrow \alpha$
+        
+        \item $y : \beta \vdash \emptybox : \alpha \rightarrow \beta$
+        
+        \item $\cdot \vdash \emptybox : \alpha \rightarrow \beta$
+        
+        \item $\emptybox \vdash \eapp{x}{x} : \emptybox$
+        
+        \item $\cdot \vdash \emptybox : \alpha \rightarrow (\alpha \rightarrow \alpha)$
+        
+        \item $\cdot \vdash \emptybox : (\alpha \rightarrow \alpha) \rightarrow \alpha$
+        
+        \item $\emptybox \vdash \elam{x}{\eapp{x}{(\eapp{x}{x})}} : \emptybox$
+        
+        \item $\cdot \vdash \elam{f}{\elam{g}{\elam{x}{\eapp{(\eapp{f}{x})}{(\eapp{g}{x})}}}} : (\alpha \rightarrow \emptybox) \rightarrow (\alpha \rightarrow \emptybox) \rightarrow (\alpha \rightarrow \emptybox)$
+    \end{enumerate}
+
+    Note that for these problems, $\alpha$, $\beta$, \ldots are (distinct) arbitrary types, i.e., they can be instantiated
+    with any type. The expression you provide should typecheck for any arbitrary type.
+    For example, for the first problem, if you write $\elam{x}{x+10}$, then that expression does not work for an arbitrary
+    type $\alpha$; it only works if $\alpha$ is $\tint$.
+    So, $\elam{x}{x+10}$ is not a valid answer.
+\end{problem}
+
+\begin{solution}
+    YOUR SOLUTION GOES HERE
+\end{solution}
+
+
+\end{document}
