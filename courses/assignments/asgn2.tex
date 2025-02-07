@@ -1,0 +1,387 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with`a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{mathpartir}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily}
+\usepackage{courier}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{CS 599 A1: Assignment 2}
+\author{YOUR NAME, BU ID}
+\date{}
+
+\newcommand{\lc}{$\lambda$-calculus}
+
+\newcommand{\m}[1]{\mathsf{#1}}
+\newcommand{\mi}[1]{\mathit{#1}}
+\newcommand{\mb}[1]{\mathbf{#1}}
+\newcommand{\mt}[1]{\mathtt{#1}}
+\newcommand{\elam}[2]{\lambda{#1}.\,{#2}}
+\newcommand{\eapp}[2]{#1 \; #2}
+\newcommand{\step}{\mapsto}
+\newcommand{\val}[1]{#1 \; \m{value}}
+\newcommand{\eval}{\Downarrow}
+\newcommand{\num}[1]{\overline{#1}}
+\newcommand{\numf}[1]{\underline{#1}}
+\newcommand{\eif}[3]{\m{if} \; #1 \; \m{then} \; #2 \; \m{else} \; #3}
+\newcommand{\multval}[1]{#1 \; \m{mult{-}value}}
+\newcommand{\closed}[1]{#1 \; \m{closed}}
+\newcommand{\tint}{\m{int}}
+\newcommand{\tbool}{\m{bool}}
+\newcommand{\elet}[3]{\m{let} \; #1 = #2 \; \m{in} \; #3}
+\newcommand{\G}{\Gamma}
+\newcommand{\R}[1]{\textcolor{red}{#1}}
+\newcommand{\tfloat}{\m{float}}
+\newcommand{\emptybox}{\boxed{\textcolor{white}{QWERTY}}}
+\newcommand{\mstep}{\step^{*}}
+\newcommand{\zero}{\m{zero}}
+\renewcommand{\succ}[1]{\m{succ}(#1)}
+\newcommand{\semi}{\,;\,}
+\newcommand{\natrec}[5]{\m{natrec}(#1 \semi #2 \semi #3.\, #4. \, #5)}
+\newcommand{\tnat}{\m{nat}}
+\newcommand{\Red}{\m{Red}}
+\newcommand{\natred}[1]{#1 \downarrow}
+\newcommand{\issubst}{\Vdash}
+\newcommand{\ift}{\m{int{-}or{-}float}}
+\newcommand{\ecase}[3]{\m{case} \; #1 \; (#2 \Rightarrow #3)}
+\newcommand{\case}[2]{\m{case} \; #1 \; (#2)}
+\newcommand{\erecv}[2]{#2 \leftarrow \m{recv} \; #1}
+\newcommand{\esend}[2]{\m{send} \; #1 \; #2}
+\newcommand{\esendl}[2]{#1.#2}
+\newcommand{\ewait}[1]{\m{wait} \; #1}
+\newcommand{\eclose}[1]{\m{close} \; #1}
+\newcommand{\fwd}[2]{#1 \leftrightarrow #2}
+\newcommand{\espawn}[3]{#1 \leftarrow #2 \; #3}
+\newcommand{\ichoice}[1]{\oplus\{#1\}}
+\newcommand{\echoice}[1]{\&\{#1\}}
+\newcommand{\with}{\,\&\,}
+\newcommand{\one}{\mathbf{1}}
+\newcommand{\tensor}{\otimes}
+\newcommand{\lolli}{\multimap}
+\newcommand{\config}{\mathcal{C}}
+\newcommand{\dc}{\mathcal{D}}
+\newcommand{\D}{\Delta}
+\newcommand{\T}{\Theta}
+\newcommand{\poised}[1]{#1 \; \m{poised}}
+\newcommand{\proc}[2]{\m{proc}(#1, #2)}
+\newcommand{\msg}[2]{\m{msg}(#1, #2)}
+\newcommand{\fresh}[1]{(#1 \; \m{fresh})}
+
+\newcommand{\cons}{\mathcal{C}}
+\newcommand{\vars}{\mathcal{V}}
+\newcommand{\proves}{\vDash}
+
+\newcommand{\tforall}[1]{\forall #1. \, }
+\newcommand{\texists}[1]{\exists #1. \, }
+\newcommand{\tassertop}{{?}}  % -fp was: ?
+\newcommand{\tassumeop}{{!}}  % -fp was: !
+\newcommand{\tassert}[1]{\tassertop\{#1\}. \,} % -fp was: \; \tassertop
+\newcommand{\tassume}[1]{\tassumeop\{#1\}. \,} % -fp was: \; \tassumeop
+
+\newcommand{\esendn}[2]{\m{send} \; #1 \; \{#2\}}
+\newcommand{\erecvn}[2]{\{#2\} \leftarrow \m{recv} \; #1}
+\newcommand{\eassume}[2]{\m{assume} \; #1 \; \{#2\}}
+\newcommand{\eassert}[2]{\m{assert} \; #1 \; \{#2\}}
+\newcommand{\eimposs}{\m{impossible}}
+
+\newtheorem{problem}{Problem}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+\newenvironment{solution}{\textbf{Solution.}}{}
+
+
+\begin{document}
+\maketitle
+
+\section{System T [60 pts]}
+In this homework, we will study another popular language called G\"{o}del's System T that supports primitive recursion
+(but importantly, not general recursion). The language is defined as follows:
+
+\paragraph*{Syntax}
+\begin{align*}
+    \text{Expressions} \quad & e ::= \elam{x : \tau}{e} \mid \eapp{e}{e} \mid x \mid \zero \mid \succ{e} \mid \natrec{e}{e}{x}{y}{e} \\
+    \text{Types} \quad & \tau ::= \tau \rightarrow \tau \mid \tnat
+\end{align*}
+
+The language has the standard expressions from \lc{} except that the $\lambda$-expression has the type of argument
+stated explicitly.
+In addition, the language natively supports natural numbers (not integers).
+Natural numbers are defined inductively using (i) $\zero$ which defines the natural number $0$, and (ii) $\succ{e}$ which defines the
+successor, i.e., if $e$ denotes the number $\num{n}$, then $\succ{e}$ denotes $\num{n+1}$.
+
+\paragraph*{Type System}
+\begin{mathpar}
+    \inferrule*[right=Lam]
+    {\G, x : \alpha \vdash e : \tau}
+    {\G \vdash \elam{x : \alpha}{e} : \alpha \rightarrow \tau}
+    \and
+    \inferrule*[right=App]
+    {\G \vdash e_1 : \alpha \rightarrow \tau \and \G \vdash e_2 : \alpha}
+    {\G \vdash \eapp{e_1}{e_2} : \tau}
+    \and
+    \inferrule*[right=Var]
+    { }
+    {\G, x : \tau \vdash x : \tau}
+    \and
+    \inferrule*[right=Zero]
+    { }
+    {\G \vdash \zero : \tnat}
+    \and
+    \inferrule*[right=Succ]
+    {\G \vdash e : \tnat}
+    {\G \vdash \succ{e} : \tnat}
+    \and
+    \inferrule*[right=Rec]
+    {\G \vdash e : \tnat \and \G \vdash e_0 : \tau \and \G, x: \tnat, y : \tau \vdash e_1 : \tau}
+    {\G \vdash \natrec{e}{e_0}{x}{y}{e_1} : \tau}    
+\end{mathpar}
+
+The rules for \lc{} are standard. The type of $\zero$ is $\tnat$ and if $e$ has type $\tnat$,
+then $\succ{e}$ also has type $\tnat$.
+Finally, $\m{natrec}$ is used to perform primitive recursion on natural numbers (only). The expression
+$\natrec{e}{e_0}{x}{y}{e_1}$ performs recursion on the first argument $e$ which must have type $\tnat$.
+If $e$ is $\zero$, then this expression returns $e_0$ which has an arbitrary type $\tau$.
+If $e$ is $\succ{e'}$, then we essentially evaluate $e_1$ where $x$ represents the predecessor $e'$,
+and $y$ represents the value from the previous recursive call.
+Therefore, in the presence of $x : \tnat$ and $y : \tau$, we need to derive that $e_1 : \tau$.
+
+
+\paragraph*{Semantics}
+\begin{mathpar}
+    \inferrule*[right=$\lambda$-V]
+    { }
+    {\val{\elam{x : \tau}{e}}}
+    \and
+    \inferrule*[right=App-L]
+    {e_1 \step e_1'}
+    {\eapp{e_1}{e_2} \step \eapp{e_1'}{e_2}}
+    \and
+    \inferrule*[right=App-R]
+    {\val{e_1} \and e_2 \step e_2'}
+    {\eapp{e_1}{e_2} \step \eapp{e_1}{e_2'}}
+    \and
+    \inferrule*[right=App-S]
+    {\val{e'}}
+    {\eapp{(\elam{x : \tau}{e})}{e'} \step [e'/x]e}
+    \and
+    \inferrule*[right=Zero]
+    { }
+    {\val{\zero}}
+    \and
+    \inferrule*[right=Succ]
+    { }
+    {\val{\succ{e}}}
+    \and
+    \inferrule*[right=Rec-E]
+    {e \step e'}
+    {\natrec{e}{e_0}{x}{y}{e_1} \step \natrec{e}{e_0}{x}{y}{e_1}}
+    \and
+    \inferrule*[right=Rec-Z]
+    { }
+    {\natrec{\zero}{e_0}{x}{y}{e_1} \step e_0}
+    \and
+    \inferrule*[right=Rec-S]
+    { }
+    {\natrec{\succ{e}}{e_0}{x}{y}{e_1} \step [e/x,\, \natrec{e}{e_0}{x}{y}{e_1}/y]e_1}
+\end{mathpar}
+
+The rules of \lc{} are standard. $\zero$ and $\succ{e}$ are defined to be values.
+There is a standard rule $\textsc{Rec-E}$ for evaluating the argument to $\m{natrec}$.
+If the argument is $0$, the $\m{natrec}$ expression simply steps to $e_0$ as
+demonstrated by the $\textsc{Rec-Z}$ rule.
+Finally, if the argument is $\succ{e}$, then $e$ is substituted for $x$ and
+the recursive call $\natrec{e}{e_0}{x}{y}{e_1}$ is substituted for $y$ in $e_1$.
+\textbf{Try to write some examples of $e_0$ and $e_1$ to see how they evaluate.}
+
+For your convenience, we will state (but not prove) a canonical forms lemma.
+
+\begin{lemma}[Canonical Forms]
+    If $\G \vdash e : \tau$, then
+    \begin{itemize}
+        \item If $\tau$ is $\tnat$, then $e = \zero$ or $e = \succ{e'}$ for some $e'$ such that $\G \vdash e' : \tnat$.
+        \item If $\tau$ is $\tau_1 \rightarrow \tau_2$, then $e = \elam{x : \tau_1}{e'}$ for some $e'$ such that
+        $\G, x : \tau_1 \vdash e' : \tau_2$.
+    \end{itemize}
+\end{lemma}
+
+\subsection{Termination}
+Unlike general recursive programming languages like OCaml and Rust, System T has the
+valuable property that all programs written in this language terminate, i.e., evaluate to a value
+in a finite number of steps.
+Your task is to prove this fact using Tait's reducibility method.
+The theorem we want to prove is the following:
+
+\begin{theorem}[Normalization]\label{thm:normal}
+    If $\cdot \vdash e : \tau$, then there exists $v$ such that $\val{v}$ and $e \mstep v$,
+    where $\mstep$ is the reflexive transitive closure of $\step$.
+\end{theorem}
+We might hope to prove this
+theorem directly by induction on the typing judgment. However, this approach is insufficient.
+The case for the application rule $\textsc{(App)}$ is demonstrative.
+\begin{mathpar}
+    \inferrule*[right=App]
+    {\G \vdash e_1 : \alpha \rightarrow \tau \and \G \vdash e_2 : \alpha}
+    {\G \vdash \eapp{e_1}{e_2} : \tau}
+\end{mathpar}
+In this case, our induction hypotheses tells us that $e_1 \mstep v_1$ and $e_2 \mstep v_2$
+for some values $v_1$ and $v_2$.
+By preservation and the appropriate canonical forms lemma,
+we know that $v_1 = \elam{x : \alpha}{e'}$ for some $e'$.
+It also follows that $\eapp{e_1}{e_2} \mstep \eapp{v_1}{e_2}
+\step [e_2/x]e'$.
+Unfortunately, we are now stuck, as we have no
+information about the behavior of $[e_2/x]e'$.
+
+We will solve this by generalizing, proving a stronger statement which
+gives us more information as an induction hypothesis. Specifically, we
+will define a \emph{reducibility predicate} $\Red_{\tau}(e)$ and prove
+the following theorem.
+
+\begin{theorem}\label{thm:red}
+    If $\cdot \vdash e : \tau$, then $\Red_{\tau}(e)$.
+\end{theorem}
+Since we'll define $\Red_\tau$ such that $\Red_\tau(e)$ implies the
+existence of $\val{v}$ with $e \mstep v$, this theorem will imply
+normalization as a corollary. The definition will go by structural
+induction on the type $\tau$, which makes $\Red_\tau$ what is called a
+\emph{logical relation}. (In particular, it is a \emph{unary} logical
+relation; we will encounter \emph{binary} logical relations, such as
+logical equivalence $e \sim_\tau e'$, later in the course.)  Actually,
+we will prove an even more general theorem in order to account for
+open terms; to state it concisely, we first want to define some
+notation for substitutions.
+\begin{definition}
+  A substitution $\gamma = \{x_1 \hookrightarrow
+  e_1, \ldots, x_n \hookrightarrow e_n\}$ is a finite mapping from
+  variables to terms. Given an expression $e$, we write $\gamma(e)$
+  for the expression $[e_1,\ldots,e_n/x_1,\ldots,x_n]e$, that is, the
+  simultaneous substitution in $e$ of each expression $e_i$ for its
+  corresponding variable $x_i$. For $\gamma$ as above, we define
+  $\gamma \issubst \G$ to mean that $\G = x_1 : \tau_1, \ldots, x_n :
+  \tau_n$ for some $\tau_1,\ldots,\tau_n$ such that
+  $\Red_{\tau_i}(e_i)$ holds for $1 \le i \le n$.
+\end{definition}
+Now we state the theorem we will actually prove:
+\begin{theorem}\label{thm:red_subst}
+  If $\G \vdash e : \tau$ and $\gamma \issubst \G$ then $\Red_\tau(\gamma(e))$.
+\end{theorem}
+Theorem~\ref{thm:red} follows as the special case where $\G = \cdot$ and $\gamma =
+\langle \rangle$. Finally, we define the predicate $\Red_\tau$ by
+structural induction on $\tau$:
+\begin{itemize}
+  \item $\Red_{\tau_1 \to \tau_2}(e)$ holds if
+    \begin{enumerate}
+      \item $\cdot \vdash e : \tau_1 \to \tau_2$,
+      \item there exists $\val{v}$ such that $e \mstep v$, and
+      \item for any $e'$ such that $\Red_{\tau_1}(e')$, we have
+        $\Red_{\tau_2}(e e')$.
+    \end{enumerate}
+  \item $\Red_\tnat(e)$ holds if
+    \begin{enumerate}
+      \item $\cdot \vdash e : \tnat$,
+      \item there exists $\val{v}$ such that $e \mstep v$, and
+      \item $\natred{v}$, where $\natred{v}$ is a judgment defined by
+        \begin{mathpar}
+        \inferrule*[right=$\downarrow$-Z]
+          { }
+          {\natred{\zero}}
+        \and
+        \inferrule*[right=$\downarrow$-S]
+          {e \mstep v \and \val{v} \and \natred{v}}
+          {\natred{\succ{e}}}
+        \end{mathpar}
+    \end{enumerate}
+\end{itemize}
+Note that $\Red_{\tau_1 \to \tau_2}(e)$ is defined in terms of $\Red$
+at the structurally smaller types $\tau_1$ and $\tau_2$, so the
+definition is well-founded. To get you started on the proof, and to
+see how this definition succeeds where the previous attempt failed,
+here is the $\textsc{App}$ case:
+\begin{itemize}
+  \item Case $\textsc{App}$: We have $\G \vdash \eapp{e_1}{e_2} : \tau$
+    with $\G \vdash e_1 : \alpha \to \tau$ and $\G \vdash e_2 :
+    \alpha$ for some $\alpha$. Per the theorem statement, we assume we
+    are given $\gamma \issubst \G$ and want to prove that
+    $\Red_\tau(\gamma(\eapp{e_1}{e_2}))$.  By definition of substitution, we
+    have that $\gamma(\eapp{e_1}{e_2}) = \eapp{\gamma(e_1)}{\gamma(e_2)}$. Moreover,
+    our induction hypotheses tell us that $\Red_{\alpha \to
+      \tau}(\gamma(e_1))$ and $\Red_{\alpha}(\gamma(e_2))$. From
+    condition 3 in the definition of $\Red_{\alpha \to \tau}$, we know
+    that for any $e'$ with $\Red_{\alpha}(e')$ we have
+    $\Red_{\tau}(\gamma(e_1)e')$. Taking $e' = \gamma(e_2)$ thus gives
+    our goal.
+\end{itemize}
+With the right definition $\Red$ in hand, the $\textsc{App}$ case
+follows almost trivially. On the other hand, the $\textsc{Lam}$ case
+becomes more difficult. In general, though, proving the theorem is the
+easy part of a logical relations argument -- the hard part is choosing
+the right theorem to prove.
+
+To complete the proof, you'll need the following lemma.
+\begin{lemma}[Closure under Head Expansion]
+  If $\Red_{\tau}(e')$,
+  $\cdot \vdash e : \tau$ and $e \step e'$, then $\Red_{\tau}(e)$.
+\end{lemma}
+
+\begin{problem}[10 pts]
+  Prove closure under head expansion.
+\end{problem}
+
+\begin{solution}
+
+\end{solution}
+
+With the help of Preservation, closure under head expansion extends to
+apply when $e \mstep e'$ in multiple steps (you can use this without
+proof).
+
+\begin{problem}[30 pts]
+  Prove the remaining cases of Theorem~\ref{thm:red_subst}.
+  You may state (without proof) lemmas about substitution, but be sure
+  to check that they are actually true.
+\end{problem}
+
+\begin{solution}
+
+\end{solution}
+
+\subsection{Programming in System T}
+
+Next, we will get some programming experience in System T.
+
+\begin{problem}[20 pts]
+    Define the following functions in System T. For each definition below,
+    briefly explain the intuition behind your answer (4 pts each).
+    You can define and use helper functions to solve these problems.
+
+    \begin{enumerate}
+        \item Define $\m{mult}$, where $\m{mult} \; \num{m} \; \num{n} \mstep \num{m \otimes n}$.
+        \item Define $\m{minus}$, where $\m{minus} \; \num{m} \; \num{n} \mstep \num{m - n}$ if $\num{m} > \num{n}$. It should produce 0 otherwise.
+        \item Define $\m{leq}$, where $\m{leq} \; \num{m} \; \num{n} \mstep \succ{\zero}$ if $\num{m} \leq \num{n}$ and
+        $\m{leq} \; \num{m} \; \num{n} \mstep \zero$ otherwise.
+        \item Define $\m{mod}$ where $\m{mod} \; \num{m} \; \num{n} = \num{m \; \m{mod} \; n}$. You may pick appropriate defaults when $n = 0$.
+        \item Define $\m{cube}$ where $\m{cube} \; \num{n} = \num{n \otimes n \otimes n}$.
+    \end{enumerate}
+
+\end{problem}
+
+
+\begin{solution}
+  
+\end{solution}
+
+
+\end{document}
