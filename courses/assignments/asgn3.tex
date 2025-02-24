@@ -1,0 +1,269 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with`a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{mathpartir}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily}
+\usepackage{courier}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{\vspace{-2em}
+CS 599 A1: Assignment 3}
+\author{YOUR NAME, BU ID}
+\date{}
+
+\newcommand{\lc}{$\lambda$-calculus}
+
+\newcommand{\m}[1]{\mathsf{#1}}
+\newcommand{\mi}[1]{\mathit{#1}}
+\newcommand{\mb}[1]{\mathbf{#1}}
+\newcommand{\mt}[1]{\mathtt{#1}}
+\newcommand{\elam}[2]{\lambda{#1}.\,{#2}}
+\newcommand{\eapp}[2]{#1 \; #2}
+\newcommand{\step}{\mapsto}
+\newcommand{\val}[1]{#1 \; \m{value}}
+\newcommand{\eval}{\Downarrow}
+\newcommand{\num}[1]{\overline{#1}}
+\newcommand{\numf}[1]{\underline{#1}}
+\newcommand{\eif}[3]{\m{if} \; #1 \; \m{then} \; #2 \; \m{else} \; #3}
+\newcommand{\multval}[1]{#1 \; \m{mult{-}value}}
+\newcommand{\closed}[1]{#1 \; \m{closed}}
+\newcommand{\tint}{\m{int}}
+\newcommand{\tbool}{\m{bool}}
+\newcommand{\elet}[3]{\m{let} \; #1 = #2 \; \m{in} \; #3}
+\newcommand{\G}{\Gamma}
+\newcommand{\R}[1]{\textcolor{red}{#1}}
+\newcommand{\tfloat}{\m{float}}
+\newcommand{\emptybox}{\boxed{\textcolor{white}{QWERTY}}}
+\newcommand{\mstep}{\step^{*}}
+\newcommand{\zero}{\m{zero}}
+\renewcommand{\succ}[1]{\m{succ}(#1)}
+\newcommand{\semi}{\,;\,}
+\newcommand{\natrec}[5]{\m{natrec}(#1 \semi #2 \semi #3.\, #4. \, #5)}
+\newcommand{\tnat}{\m{nat}}
+\newcommand{\Red}{\m{Red}}
+\newcommand{\natred}[1]{#1 \downarrow}
+\newcommand{\issubst}{\Vdash}
+\newcommand{\ift}{\m{int{-}or{-}float}}
+\newcommand{\ecase}[3]{\m{case} \; #1 \; (#2 \Rightarrow #3)}
+\newcommand{\ecaselr}[3]{\m{case} \; #1 \; (\m{inl} \Rightarrow #2 \mid \m{inr} \Rightarrow #3)}
+\newcommand{\case}[2]{\m{case} \; #1 \; (#2)}
+\newcommand{\erecv}[2]{#2 \leftarrow \m{recv} \; #1}
+\newcommand{\esend}[2]{\m{send} \; #1 \; #2}
+\newcommand{\esendl}[2]{#1.#2}
+\newcommand{\ewait}[1]{\m{wait} \; #1}
+\newcommand{\eclose}[1]{\m{close} \; #1}
+\newcommand{\fwd}[2]{#1 \leftrightarrow #2}
+\newcommand{\espawn}[3]{#1 \leftarrow #2 \; #3}
+\newcommand{\ichoice}[1]{\oplus\{#1\}}
+\newcommand{\echoice}[1]{\&\{#1\}}
+\newcommand{\with}{\,\&\,}
+\newcommand{\one}{\mathbf{1}}
+\newcommand{\tensor}{\otimes}
+\newcommand{\lolli}{\multimap}
+\newcommand{\config}{\mathcal{C}}
+\newcommand{\dc}{\mathcal{D}}
+\newcommand{\D}{\Delta}
+\newcommand{\T}{\Theta}
+\newcommand{\poised}[1]{#1 \; \m{poised}}
+\newcommand{\proc}[2]{\m{proc}(#1, #2)}
+\newcommand{\msg}[2]{\m{msg}(#1, #2)}
+\newcommand{\fresh}[1]{(#1 \; \m{fresh})}
+
+\newcommand{\cons}{\mathcal{C}}
+\newcommand{\vars}{\mathcal{V}}
+\newcommand{\proves}{\vDash}
+
+\newcommand{\tforall}[1]{\forall #1. \, }
+\newcommand{\texists}[1]{\exists #1. \, }
+\newcommand{\tassertop}{{?}}  % -fp was: ?
+\newcommand{\tassumeop}{{!}}  % -fp was: !
+\newcommand{\tassert}[1]{\tassertop\{#1\}. \,} % -fp was: \; \tassertop
+\newcommand{\tassume}[1]{\tassumeop\{#1\}. \,} % -fp was: \; \tassumeop
+
+\newcommand{\esendn}[2]{\m{send} \; #1 \; \{#2\}}
+\newcommand{\erecvn}[2]{\{#2\} \leftarrow \m{recv} \; #1}
+\newcommand{\eassume}[2]{\m{assume} \; #1 \; \{#2\}}
+\newcommand{\eassert}[2]{\m{assert} \; #1 \; \{#2\}}
+\newcommand{\eimposs}{\m{impossible}}
+
+\newcommand{\epair}[2]{\langle #1, #2 \rangle}
+\newcommand{\letpair}[4]{\m{let} \; \langle #1, #2 \rangle = #3 \; \m{in} \; #4}
+\newcommand{\inl}[1]{\m{inl}(#1)}
+\newcommand{\inr}[1]{\m{inr}(#1)}
+\newcommand{\match}[5]{\m{match} \; #1 \; \m{with} \; \{\,\m{inl}(#2) \to #3 \mid \m{inr}(#4) \to #5\,\}}
+\newcommand{\letapp}[4]{\m{let} \; #1 = #2 \; #3 \; \m{in} \; #4}
+
+\newtheorem{problem}{Problem}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+\newenvironment{solution}{\textbf{Solution.}}{}
+
+
+\begin{document}
+\maketitle
+
+\section*{Derivations and Programs}
+This assignment will be all about writing derivations and their corresponding programs.
+For your convenience, I have provided the typing rules of both languages.
+
+\subsection*{Constructive Logic}
+\paragraph*{Syntax}
+\begin{align*}
+  \text{Expressions} \quad e & ::= \inl{e} \mid \inr{e} \mid \match{x}{y}{e}{z}{e} \mid \epair{e}{e} \mid \letpair{y}{z}{x}{e} \\
+  & \;\; \mid \;\; \elam{x}{e} \mid \letapp{y}{f}{e}{e} \\
+  \text{Types} \quad \tau & ::= \tau \lor \tau \mid \tau \land \tau \mid \tau \Rightarrow \tau
+\end{align*}
+
+\paragraph*{Typing Rules}
+  \begin{mathpar}
+  \inferrule*[right=$\lor$R$_1$]
+  {\G \vdash e : \tau_1}
+  {\G \vdash \inl{e} : \tau_1 \lor \tau_2}
+  \and
+  \inferrule*[right=$\lor$R$_2$]
+  {\G \vdash e : \tau_2}
+  {\G \vdash \inr{e} : \tau_1 \lor \tau_2}
+  \and
+  \inferrule*[right=$\lor$L]
+  {\G, y : \tau_1 \vdash e_1 : \tau \and \G, z : \tau_2 \vdash e_2 : \tau}
+  {\G, x : \tau_1 \lor \tau_2 \vdash \match{x}{y}{e_1}{z}{e_2} : \tau}
+  \\
+  \inferrule*[right=$\land$R]
+  {\G \vdash e_1 : \tau_1 \and \G \vdash e_2 : \tau_2}
+  {\G \vdash \epair{e_1}{e_2} : \tau_1 \land \tau_2}
+  \and
+  \inferrule*[right=$\land$L]
+  {\G, y : \tau_1, z : \tau_2 \vdash e : \tau}
+  {\G, x : \tau_1 \land \tau_2 \vdash \letpair{y}{z}{x}{e} : \tau}
+  \and
+  \inferrule*[right=$\Rightarrow$R]
+  {\G, x : \tau_1 \vdash e : \tau_2}
+  {\G \vdash \elam{x}{e} : \tau_1 \Rightarrow \tau_2}
+  \and
+  \inferrule*[right=$\Rightarrow$L]
+  {\G \vdash e_1 : \tau_1 \and \G, x : \tau_2 \vdash e : \tau}
+  {\G, x : \tau_1 \Rightarrow \tau_2 \vdash \letapp{y}{f}{e_1}{e_2} : \tau}
+  \end{mathpar}
+
+\subsection*{Linear Logic}
+
+\paragraph*{Syntax}
+\begin{align*}
+  \text{Expressions} \quad P, Q & ::= \esendl{x}{\m{inl}} \semi P \mid \esendl{x}{\m{inr}} \semi P \mid \case{x}{\m{inl} \Rightarrow P \mid \m{inr} \Rightarrow Q} \\
+  & \;\; \mid \;\; \esend{x}{y} \semi P \mid \erecv{x}{y} \semi P \mid \ewait{x} \semi P \mid \eclose{x}\\
+  \text{Types} \quad A, B & ::= A \oplus B \mid A \with B \mid A \tensor B \mid A \lolli B \mid \one
+\end{align*}
+
+\paragraph*{Typing Rules}
+  \begin{mathpar}
+  \inferrule*[right=$\oplus$R$_1$]
+  {\Delta \vdash P :: (x : A_1)}
+  {\Delta \vdash (x.\m{inl} \semi P) :: (x : A_1 \oplus A_2)}
+  \and
+  \inferrule*[right=$\oplus$R$_2$]
+  {\Delta \vdash P :: (x : A_2)}
+  {\Delta \vdash (x.\m{inr} \semi P) :: (x : A_1 \oplus A_2)}
+  \and
+  \inferrule*[right=$\oplus$L]
+  {\Delta, x : A_1 \vdash Q_1 :: (z : C) \and \Delta, x : A_2 \vdash Q_2 :: (z : C)}
+  {\Delta, x : A_1 \oplus A_2 \vdash (\ecaselr{x}{Q_1}{Q_2}) :: (z : C)}
+  \and
+  \inferrule*[right=$\with$R]
+  {\Delta \vdash P_1 :: (x : A_1) \and \Delta \vdash P_2 :: (x : A_2)}
+  {\Delta \vdash (\ecaselr{x}{P_1}{P_2}) :: (x : A_1 \with A_2)}
+  \and
+  \inferrule*[right=$\with$L$_1$]
+  {\Delta, x : A_1 \vdash Q :: (z : C)}
+  {\Delta, x : A_1 \with A_2 \vdash (x.\m{inl} \semi Q) :: (z : C)}
+  \and
+  \inferrule*[right=$\with$L$_2$]
+  {\Delta, x : A_2 \vdash Q :: (z : C)}
+  {\Delta, x : A_1 \with A_2 \vdash (x.\m{inr} \semi Q) :: (z : C)}
+\end{mathpar}
+    
+\begin{mathpar}
+  \inferrule*[right=$\tensor$R]
+  {\Delta \vdash P :: (x : B)}
+  {\Delta, y : A \vdash (\esend{x}{y} \semi P) :: (x : A \tensor B)}
+  \and
+  \inferrule*[right=$\tensor$L]
+  {\Delta, y : A, x : B \vdash Q :: (z : C)}
+  {\Delta, x : A \tensor B \vdash (\erecv{x}{y} \semi Q) :: (z : C)}
+  \and
+  \inferrule*[right=$\lolli$R]
+  {\Delta, y : A \vdash P :: (x : B)}
+  {\Delta \vdash (\erecv{x}{y} \semi P) :: (x : A \lolli B)}
+  \and
+  \inferrule*[right=$\lolli$L]
+  {\Delta, x : B \vdash Q :: (z : C)}
+  {\Delta, x : A \lolli B, y : A \vdash (\esend{x}{y} \semi Q) :: (z : C)}
+  \and
+  \inferrule*[right=$\one$R]
+  {\mathstrut}
+  {\cdot \vdash (\eclose{x}) :: (x : \one)}
+  \and
+  \inferrule*[right=$\one$L]
+  {\Delta \vdash Q :: (z : C)}
+  {\Delta, x : \one \vdash (\ewait{x} \semi Q) :: (z : C)}
+  \and
+  \inferrule*[right=$\m{id}$]
+  { }
+  {x : A \vdash (\fwd{y}{x}) :: (y : A)}
+  \and
+  \inferrule*[right=$\m{def}$]
+  {\m{decl} \; f : \overline{y' : A'} \vdash (x : A) \in \Sigma
+  \and \Delta, x : A \vdash Q :: (z : C)}
+  {\Delta, \overline{y : A'} \vdash (\espawn{x}{f}{\overline{y}} \semi Q) :: (z : C)}
+  \end{mathpar}
+
+\section{Inference in Constructive Logic [50 pts]}
+For the following propositions, determine if they are true or false.
+If the proposition is true, do a (single) derivation with the corresponding program
+(using the rules above).
+If the proposition is false, briefly explain why.
+
+\begin{enumerate}
+  \item $(\tau_1 \land (\tau_2 \lor \tau_3)) \Rightarrow (\tau_1 \land \tau_2) \lor (\tau_1 \land \tau_3)$
+  \item $((\tau_1 \Rightarrow \tau_2) \Rightarrow \tau_3) \Rightarrow (\tau_1 \Rightarrow (\tau_2 \Rightarrow \tau_3))$
+  \item $\tau \Rightarrow (\tau \land \tau)$
+  \item $(\tau \land \tau) \Rightarrow \tau$
+  \item $\tau_1 \Rightarrow \tau_2 \Rightarrow (\tau_1 \land \tau_2)$
+\end{enumerate}
+
+\begin{solution}
+  
+\end{solution}
+
+\section{Inference in Linear Logic [50 pts]}
+For the following propositions, determine if they are true or false.
+If the proposition is true, do a (single) derivation with the corresponding program
+(using the rules above).
+If the proposition is false, briefly explain why.
+
+\begin{enumerate}
+  \item $A \with (B \tensor C) \Rightarrow (A \with B) \tensor (A \with C)$
+  \item $((A \lolli B) \lolli C) \Rightarrow (A \lolli (B \lolli C))$
+  \item $(A \lolli A) \lolli A$
+  \item $A \lolli A \lolli (A \tensor A)$
+  \item $(A \lolli (B \tensor C)) \lolli (A \lolli B) \tensor (A \lolli C)$
+\end{enumerate}
+
+\begin{solution}
+  
+\end{solution}
+
+
+\end{document}
