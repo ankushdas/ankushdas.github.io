@@ -1,0 +1,30 @@
+type nat = +{succ : nat, zero : 1}
+
+type even = +{succ : odd, zero : 1}
+
+type odd = +{succ : even}
+
+decl double : (x : odd) |- (y : even)
+
+decl plus : (x : odd) (y : even) |- (z : odd)
+
+decl even_or_odd: (x : nat) |- (y : +{E : even, O : odd})
+
+decl two : . |- (c : nat)
+decl three : . |- (c : nat)
+decl two_is_even : . |- (c : +{E : even, O : odd})
+decl three_is_odd : . |- (c : +{E : even, O : odd})
+
+type char = 1
+
+type stack = &{ins : char -o stack,
+               del : +{none : stack,
+                       some : char * stack}}
+
+type cmd = &{moveL : cmd,
+             moveR : cmd,
+             ins : char -o cmd,
+             del : +{none : cmd,
+                     some : char * cmd}}
+
+decl editor : (l : stack) (r : stack) |- (c : cmd)
