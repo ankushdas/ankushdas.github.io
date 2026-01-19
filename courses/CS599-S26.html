@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="google-site-verification" content="HbuYYxmx82KvIPdo8h5v7cFE-tOwnyKFyW3Q_FSmvyo" />
+
+  <title>CS 599</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="../css/scrolling-nav.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <div class="container">
+      <!-- Name on the side in the nav bar -->
+      <a class="navbar-brand js-scroll-trigger" href="../index.html#page-top">Ankush Das</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#about">CS 599</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#schedule">Schedule</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#assignments">Assignments</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#evaluation">Evaluation</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#faqs">FAQs</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#policies">Policies</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header class="bg-primary text-black">
+  </header>
+
+  <section id="about" class="bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-10 mx-auto">
+          <h2 style="padding-bottom: 2%;">CS 599 A1: Logic and Programming Languages, Spring
+            2026</h2>
+
+          <h4 style="padding-bottom: 1%;">
+            Course Overview
+          </h4>
+          <p>
+            <b>What is truth?</b> In constructive logic, a proof isn’t just a certificate that something is true — it’s
+            also an
+            explicit construction or algorithm. This course introduces constructive (or intuitionistic) logic, a
+            foundation for mathematics and computer science that emphasizes proofs as constructive evidence rather than
+            abstract truth. Students will explore the principles that distinguish constructive logic from classical
+            logic, including the rejection of the law of excluded middle and the requirement that proofs yield explicit
+            witnesses.
+          </p>
+
+          <p>
+            The course will cover:
+          <ul>
+            <li>Natural Deduction for Propositional and Predicate Constructive Logic</li>
+            <li>Curry-Howard correspondence between proofs and programs</li>
+            <li>Sequent calculus and proof normalization</li>
+            <li>Connections to type theory and functional programming languages</li>
+            <li>Proof Search, Inversion, and Focusing</li>
+            <li>Applications to Logic Programming Languages like Prolog</li>
+            <li>Linear Logic and Rust</li>
+          </ul>
+          </p>
+
+
+          <table style="width:100%">
+            <colgroup>
+              <col span="1" style="width: 20%;">
+              <col span="1" style="width: 80%;">
+            </colgroup>
+
+            <tr>
+              <td valign="top"><b>Instructor:</b></td>
+              <td style="text-align: justify;"><a href="https://ankushdas.github.io/">Ankush Das</a>,
+                ankushd [AT] bu [DOT] edu</td>
+            </tr>
+
+            <tr>
+              <td valign="top"><b>Course Assistant:</b></td>
+              <td style="text-align: justify;">Selene Wu,
+                sebwu [AT] bu [DOT] edu</td>
+            </tr>
+
+            <tr>
+              <td valign="top"><b>Class Schedule:</b></td>
+              <td style="text-align: justify;">Tue & Thu, 2:00pm - 3:15pm</td>
+            </tr>
+
+            <tr>
+              <td valign="top"><b>Class Location:</b></td>
+              <td style="text-align: justify;">CAS 201</td>
+            </tr>
+
+            <tr>
+              <td valign="top"><b>Office Hours:</b></td>
+              <td style="text-align: justify;">Thu, 12pm - 1pm, CDS 1024 (or with appointment with
+                instructor)</td>
+            </tr>
+
+            <tr>
+              <td valign="top"><b>Piazza:</b></td>
+              <td style="text-align: justify;">Please join the class using the following link to sign up for the course
+                on Piazza:
+                <a onclick="window.open(this.href); return false;" title="https://piazza.com/bu/spring2026/cs599a1"
+                  onkeypress="window.open(this.href); return false;"
+                  href="https://piazza.com/bu/spring2026/cs599a1"><span style="color: mediumblue;">
+                    https://piazza.com/bu/spring2026/cs599a1</span></a>. We will be using Piazza for
+                class announcements
+                and discussions.
+              </td>
+            </tr>
+
+            <tr>
+              <td valign="top"><b>Gradescope:</b></td>
+              <td style="text-align: justify;">
+                Please sign up for a student account on <a onclick="window.open(this.href); return false;"
+                  title="https://gradescope.com" onkeypress="window.open(this.href); return false;"
+                  href="https://gradescope.com"><span style="color: mediumblue;">
+                    https://gradescope.com</span></a> using your BU email address. The entry code
+                for the course is <strong>G67P24</strong>. Homework assignments are to be submitted to Gradescope in PDF
+                format.</td>
+            </tr>
+
+            <tr>
+              <td valign="top"><b>Course Website:</b></td>
+              <td style="text-align: justify;">
+                <a href="https://ankushdas.github.io/courses/CS599-S26.html"><span style="color: mediumblue;">
+                    https://ankushdas.github.io/courses/CS599-S26.html</span></a>
+              </td>
+            </tr>
+          </table>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="schedule" class="bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-10 mx-auto">
+
+          <h4 style="padding-bottom: 1%;">
+            Course Schedule
+          </h4>
+
+          This course will closely follow a similar course at Carnegie Mellon University, namely "<a
+            href="https://www.cs.cmu.edu/~crary/317-f24"><span style="color: mediumblue;">Constructive
+              Logic</span></a>".
+
+          <p><i>Will be updated regularly!</i></p>
+
+          <table style="width:100%" border="2">
+            <tr>
+              <th style="padding-left: 1%">Date</th>
+              <th style="padding-left: 1%">Topics</th>
+              <th style="padding-left: 1%">Lecture Notes</th>
+            </tr>
+
+            <tr>
+              <td style="padding-left: 1%">Jan 20, 2026</td>
+              <td style="padding-left: 1%">A Constructive Approach to Life</td>
+              <td style="padding-left: 1%">
+                <a href="https://www.cs.cmu.edu/~crary/317-f24/lectures/01-overview.pdf"><span
+                    style="color: mediumblue;">Lecture 1</span></a>
+              </td>
+            </tr>
+
+
+            <!-- <tr>
+              <td style="padding-left: 1%">Jan 23, 2025</td>
+              <td style="padding-left: 1%">Untyped Lambda Calculus</td>
+              <td style="padding-left: 1%">
+                <a href="lectures/lec2.pdf"><span style="color: mediumblue;">Lecture 2</span></a>
+              </td>
+              <td style="padding-left: 1%"></td>
+            </tr>
+
+            <tr>
+              <td style="padding-left: 1%">Jan 28, 2025</td>
+              <td style="padding-left: 1%">An Introduction to Types</td>
+              <td style="padding-left: 1%">
+                <a href="lectures/lec3.pdf"><span style="color: mediumblue;">Lecture 3</span></a>
+              </td>
+              <td></td>
+            </tr>
+
+            <tr>
+              <td style="padding-left: 1%">Jan 30, 2025</td>
+              <td style="padding-left: 1%">Structural Inference and Logic</td>
+              <td style="padding-left: 1%">
+                <a href="lectures/lec4.pdf"><span style="color: mediumblue;">Lecture 4</span></a>
+              </td>
+              <td></td>
+            </tr>
+
+            <tr>
+              <td style="padding-left: 1%">Feb 4, 2025</td>
+              <td style="padding-left: 1%">Preservation</td>
+              <td style="padding-left: 1%"></td>
+              <td style="padding-left: 1%"></td>
+            </tr>
+
+            <tr>
+              <td style="padding-left: 1%">Feb 6, 2025</td>
+              <td style="padding-left: 1%">Progress</td>
+              <td style="padding-left: 1%"></td>
+              <td style="padding-left: 1%"></td>
+            </tr>
+
+
+            <tr>
+              <td style="padding-left: 1%">Feb 11, 2025</td>
+              <td style="padding-left: 1%">Curry-Howard Isomorphism on Structural Logic</td>
+              <td style="padding-left: 1%"></td>
+              <td style="padding-left: 1%"></td>
+            </tr>
+
+            <tr>
+              <td style="padding-left: 1%">Feb 13, 2025</td>
+              <td style="padding-left: 1%">Curry-Howard Isomorphism (Contd)</td>
+              <td style="padding-left: 1%"></td>
+              <td style="padding-left: 1%"></td>
+            </tr>
+
+            <tr>
+              <td style="padding-left: 1%">Feb 18, 2025</td>
+              <td style="padding-left: 1%">No Lecture (Monday's Schedule)</td>
+              <td style="padding-left: 1%"></td>
+              <td style="padding-left: 1%"></td>
+            </tr>
+
+            <tr>
+              <td style="padding-left: 1%">Feb 20, 2025</td>
+              <td style="padding-left: 1%">Linear Logic</td>
+              <td style="padding-left: 1%"></td>
+              <td style="padding-left: 1%"><a
+                  href="https://www.cs.cmu.edu/~fp/courses/15836-f23/lectures/02-connectives.pdf">Notes
+                  by Frank Pfenning</a></td>
+            </tr>
+
+
+            <tr>
+              <td style="padding-left: 1%">Feb 25, 2025</td>
+              <td style="padding-left: 1%">Harmony: Identity Expansion</td>
+              <td style="padding-left: 1%"></td>
+              <td style="padding-left: 1%"></td>
+            </tr>
+
+            <tr>
+              <td style="padding-left: 1%">Feb 27, 2025</td>
+              <td style="padding-left: 1%">Harmony: Cut Elimination</td>
+              <td style="padding-left: 1%">TBA</td>
+              <td style="padding-left: 1%"><a
+                  href="https://www.cs.cmu.edu/~fp/courses/15836-f23/lectures/03-cutelim.pdf">Notes by
+                  Frank Pfenning</a></td>
+            </tr>
+
+            <tr>
+              <td style="padding-left: 1%">Mar 4, 2026</td>
+              <td style="padding-left: 1%">Session Types</td>
+              <td style="padding-left: 1%"></td>
+              <td style="padding-left: 1%"><a href="https://ankushdas.github.io/docs/thesis.pdf">Chapter
+                  2.1 from PhD Thesis</a></td>
+            </tr>
+            <tr>
+              <td style="padding-left: 1%">Mar 6, 2025</td>
+              <td style="padding-left: 1%">Midterm Exam</td>
+              <td style="padding-left: 1%">TBA</td>
+              <td style="padding-left: 1%"></td>
+            </tr>
+
+            <tr>
+              <td style="padding-left: 1%">Mar 11, 2025</td>
+              <td style="padding-left: 1%">Spring Break</td>
+              <td style="padding-left: 1%"></td>
+              <td style="padding-left: 1%"></td>
+            </tr>
+
+            <tr>
+              <td style="padding-left: 1%">Mar 13, 2025</td>
+              <td style="padding-left: 1%">Spring Break</td>
+              <td style="padding-left: 1%"></td>
+              <td style="padding-left: 1%"></td>
+            </tr>
+
+            <tr>
+              <td style="padding-left: 1%">Mar 18, 2025</td>
+              <td style="padding-left: 1%">Semantics of Session Types</td>
+              <td style="padding-left: 1%">TBA</td>
+              <td style="padding-left: 1%"><a href="https://ankushdas.github.io/docs/thesis.pdf">Chapter
+                  2.1 from PhD Thesis</a></td>
+            </tr>
+
+            <tr>
+              <td style="padding-left: 1%">Mar 20, 2025</td>
+              <td style="padding-left: 1%">Session Type Configurations</td>
+              <td style="padding-left: 1%">TBA</td>
+              <td style="padding-left: 1%"><a href="https://ankushdas.github.io/docs/thesis.pdf">Chapter
+                  2.1 from PhD Thesis</a></td>
+            </tr>
+
+            <tr>
+              <td style="padding-left: 1%">Mar 25, 2025</td>
+              <td style="padding-left: 1%">Preservation Theorem</td>
+              <td style="padding-left: 1%">TBA</td>
+              <td style="padding-left: 1%"><a href="https://ankushdas.github.io/docs/thesis.pdf">Chapter
+                  2.1 from PhD Thesis</a></td>
+            </tr>
+
+            <tr>
+              <td style="padding-left: 1%">Mar 27, 2025</td>
+              <td style="padding-left: 1%">Progress Theorem</td>
+              <td style="padding-left: 1%">TBA</td>
+              <td style="padding-left: 1%"><a href="https://ankushdas.github.io/docs/thesis.pdf">Chapter
+                  2.1 from PhD Thesis</a></td>
+            </tr>
+
+            <tr>
+              <td style="padding-left: 1%">Apr 1, 2025</td>
+              <td style="padding-left: 1%">Co-Induction and Session Type Equality</td>
+              <td style="padding-left: 1%">TBA</td>
+              <td style="padding-left: 1%"><a href="https://www.dcs.gla.ac.uk/~simon/publications/acta05.pdf">Subtyping
+                  for
+                  Session Types</a></td>
+            </tr>
+
+            <tr>
+              <td style="padding-left: 1%">Apr 3, 2025</td>
+              <td style="padding-left: 1%">Refinement Session Types I</td>
+              <td style="padding-left: 1%">TBA</td>
+              <td style="padding-left: 1%"><a href="https://ankushdas.github.io/docs/thesis.pdf">Chapter 3
+                  from PhD Thesis</a></td>
+            </tr>
+
+            <tr>
+              <td style="padding-left: 1%">Apr 8, 2025</td>
+              <td style="padding-left: 1%">Refinement Session Types II</td>
+              <td style="padding-left: 1%">TBA</td>
+              <td style="padding-left: 1%"><a href="https://ankushdas.github.io/docs/thesis.pdf">Chapter 3
+                  from PhD Thesis</a></td>
+            </tr>
+
+            <tr>
+              <td style="padding-left: 1%">Apr 10, 2025</td>
+              <td style="padding-left: 1%">Refinement Session Types III</td>
+              <td style="padding-left: 1%">TBA</td>
+              <td style="padding-left: 1%"><a href="https://ankushdas.github.io/docs/thesis.pdf">Chapter 3
+                  from PhD Thesis</a></td>
+            </tr>
+
+            <tr>
+              <td style="padding-left: 1%">Apr 15, 2025</td>
+              <td style="padding-left: 1%">Refinement Types: Examples</td>
+              <td style="padding-left: 1%">TBA</td>
+              <td style="padding-left: 1%"><a href="https://ankushdas.github.io/docs/thesis.pdf">Chapter 3
+                  from PhD Thesis</a></td>
+            </tr>
+
+            <tr>
+              <td style="padding-left: 1%">Apr 17, 2025</td>
+              <td style="padding-left: 1%">Shared Session Types</td>
+              <td style="padding-left: 1%">TBA</td>
+              <td style="padding-left: 1%"><a href="https://www.cs.cmu.edu/~fp/papers/icfp17.pdf">Balzer
+                  et. al., ICFP 2017</a></td>
+            </tr> -->
+
+          </table>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="assignments" class="bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-10 mx-auto">
+
+          <h4 style="padding-bottom: 1%;">
+            Assignment Schedule
+          </h4>
+
+          <table style="width:100%" border="2">
+            <tr>
+              <th style="padding-left: 1%">Release Date</th>
+              <th style="padding-left: 1%">Due Date</th>
+              <th style="padding-left: 1%">Assignment PDF</th>
+              <th style="padding-left: 1%">Template TEX</th>
+            </tr>
+
+            <tr>
+              <td style="padding-left: 1%">Jan 23, 2025</td>
+              <td style="padding-left: 1%">Feb 6, 2025</td>
+              <td style="padding-left: 1%">
+                <a href="assignments/asgn1-problem.pdf"><span style="color: mediumblue;">Assignment
+                    1</span></a>
+              </td>
+              <td style="padding-left: 1%">
+                <a href="assignments/asgn1.tex"><span style="color: mediumblue;">(Template 1)</span></a>
+              </td>
+            </tr>
+
+
+            <!-- <tr>
+              <td style="padding-left: 1%">Feb 7, 2025</td>
+              <td style="padding-left: 1%">Feb 21, 2025</td>
+              <td style="padding-left: 1%">
+                <a href="assignments/asgn2-problem.pdf"><span style="color: mediumblue;">Assignment
+                    2</span></a>
+              </td>
+              <td style="padding-left: 1%">
+                <a href="assignments/asgn2.tex"><span style="color: mediumblue;">(Template 2)</span></a>
+              </td>
+            </tr>
+
+
+            <tr>
+              <td style="padding-left: 1%">Feb 23, 2025</td>
+              <td style="padding-left: 1%">Mar 7, 2025</td>
+              <td style="padding-left: 1%">
+                <a href="assignments/asgn3-problem.pdf"><span style="color: mediumblue;">Assignment 3</span></a>
+              </td>
+              <td style="padding-left: 1%">
+                <a href="assignments/asgn3.tex"><span style="color: mediumblue;">(Template 3)</span></a>
+              </td>
+            </tr>
+
+            <tr>
+              <td style="padding-left: 1%">Mar 20, 2025</td>
+              <td style="padding-left: 1%">Apr 3, 2025</td>
+              <td style="padding-left: 1%">
+                <a href="assignments/asgn4-problem.pdf"><span style="color: mediumblue;">Assignment
+                    4</span></a>
+              </td>
+              <td style="padding-left: 1%">
+                (<a href="assignments/asgn4.tex"><span style="color: mediumblue;">Template 4</span></a>,
+                <a href="assignments/asgn4.rast"><span style="color: mediumblue;">Code File</span></a>)
+              </td>
+            </tr>
+
+
+            <tr>
+              <td style="padding-left: 1%">Apr 3, 2025</td>
+              <td style="padding-left: 1%">Apr 17, 2025</td>
+              <td style="padding-left: 1%">
+                <a href="assignments/asgn5-problem.pdf"><span style="color: mediumblue;">Assignment
+                    5</span></a>
+              </td>
+              <td style="padding-left: 1%"></td>
+            </tr>
+
+            <tr>
+              <td style="padding-left: 1%">Apr 19, 2025</td>
+              <td style="padding-left: 1%">May 1, 2025</td>
+              <td style="padding-left: 1%">
+                <a href="assignments/asgn6-problem.pdf"><span style="color: mediumblue;">Assignment
+                    6</span></a>
+              </td>
+              <td style="padding-left: 1%"></td>
+            </tr> -->
+
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="evaluation" class="bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-10 mx-auto">
+
+          <h4 style="padding-bottom: 1%;">
+            Course Evaluation
+          </h4>
+
+          <p>
+            The course grade will be calculated using homework assignments, a mid-term exam, and a final
+            exam.
+          </p>
+
+          <h5 style="padding-bottom: 1%;">
+            Homework (60%)
+          </h5>
+
+          <p>
+            There will be bi-weekly homework assignments due every other Thursday at 11:59pm.
+            Homeworks can sometimes be challenging, so it is best to start early to give
+            yourself enough time to think attempt the problems and make best use of office hours.
+            Late homework can only be accepted in extraordinary circumstances and require approval from
+            instructor.
+          </p>
+
+          <p>
+            You are encouraged to collaborate with other students on solving the homework problems.
+            But you must write your solutions independently in your own words (or code).
+          </p>
+
+          <p>
+            I would strongly encourage students to typeset homework solutions using LaTeX which is the most
+            popular document
+            preparation system used in computer science publications. But students can use different
+            software such as MS Word
+            or handwrite solutions.
+
+            For your convenience, I will provide the LaTeX source for each assignment with instructions on
+            how to typeset
+            the solutions.
+          </p>
+
+          <h5 style="padding-bottom: 1%;">
+            Mid-Term (20%) and Final (20%) Exams
+          </h5>
+
+          <p>
+            Exams will be held in-person and you may bring handwritten (or printed) notes to the exam.
+            However, using other
+            means such as internet, ChatGPT, phones, laptops, etc. is strictly prohibited.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="policies" class="bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-10 mx-auto">
+
+          <h4 style="padding-bottom: 1%;">
+            Course Policies
+          </h4>
+
+          <h5>Academic Conduct</h5>
+          <p>
+            All Boston University students are expected to maintain the highest standards of academic
+            integrity.
+            You can find important resources here:
+          <ul>
+            <li><a href="https://www.bu.edu/provost/students/undergraduate/academic-integrity/">
+                Academic Integrity</li>
+            <li><a href="https://www.bu.edu/ctl/university-policies/academic-conduct/">
+                Academic Conduct Code</a></li>
+          </ul>
+
+          </p>
+
+
+          <h5>Disability Services</h5>
+          <p>
+            Students with documented disabilities, including learning disabilities, may be entitled to
+            accommodations
+            intended to ensure that they have integrated and equal access to the academic, social, cultural,
+            and
+            recreational programs the university offers.
+            Accommodations may include, but are not limited to, additional time on tests, staggered homework
+            assignments,
+            note-taking assistance.
+            If you believe you should receive accommodations, please contact the Office of Disability
+            Services to discuss your situation.
+            This office can give you a letter that you can share with instructors of your classes outlining
+            the
+            accommodations you should receive.
+            The letter will not contain any information about the reason for the accommodations.
+          </p>
+
+          <p>Disability & Access Services
+            <br>
+            25 Buick Street, Suite 300
+            <br>
+            617-353-3658
+            <br>
+            access@bu.edu
+            <br>
+            <a href="http://www.bu.edu/disability/">http://www.bu.edu/disability/</a>
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Ankush Das 2020. Template can be found <a
+          onclick="window.open(this.href); return false;" title="https://startbootstrap.com/templates/scrolling-nav/"
+          href="https://startbootstrap.com/templates/scrolling-nav/"
+          onkeypress="window.open(this.href); return false;"><span style="color:dodgerblue;">here</span></a>.
+      </p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="../vendor/jquery/jquery.min.js"></script>
+  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom JavaScript for this theme -->
+  <script src="../js/scrolling-nav.js"></script>
+
+</body>
+
+</html>
