@@ -1,0 +1,364 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with`a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=1in,bottom=1in,left=1in,right=1in]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{mathpartir}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{CS 599 A1: Assignment 2}
+\author{YOUR NAME, BU ID}
+\date{}
+
+\newcommand{\lc}{$\lambda$-calculus}
+
+\newcommand{\m}[1]{\mathsf{#1}}
+\newcommand{\pt}{\; \m{true}}
+\newcommand{\mi}[1]{\mathit{#1}}
+\newcommand{\mb}[1]{\mathbf{#1}}
+\newcommand{\mt}[1]{\mathtt{#1}}
+\newcommand{\elam}[2]{\lambda{#1}.\,{#2}}
+\newcommand{\eapp}[2]{#1 \; #2}
+\newcommand{\step}{\mapsto}
+\newcommand{\val}[1]{#1 \; \m{value}}
+\newcommand{\eval}{\Downarrow}
+\newcommand{\num}[1]{\overline{#1}}
+\newcommand{\numf}[1]{\underline{#1}}
+\newcommand{\eif}[3]{\m{if} \; #1 \; \m{then} \; #2 \; \m{else} \; #3}
+\newcommand{\multval}[1]{#1 \; \m{mult{-}value}}
+\newcommand{\closed}[1]{#1 \; \m{closed}}
+\newcommand{\tint}{\m{int}}
+\newcommand{\tbool}{\m{bool}}
+\newcommand{\elet}[3]{\m{let} \; #1 = #2 \; \m{in} \; #3}
+\newcommand{\G}{\Gamma}
+\newcommand{\R}[1]{\textcolor{red}{#1}}
+\newcommand{\tfloat}{\m{float}}
+\newcommand{\emptybox}{\boxed{\textcolor{white}{QWERTY}}}
+\newcommand{\mstep}{\step^{*}}
+\newcommand{\zero}{\m{zero}}
+\renewcommand{\succ}[1]{\m{succ}(#1)}
+\newcommand{\semi}{\,;\,}
+\newcommand{\natrec}[5]{\m{natrec}(#1 \semi #2 \semi #3.\, #4. \, #5)}
+\newcommand{\tnat}{\m{nat}}
+\newcommand{\Red}{\m{Red}}
+\newcommand{\natred}[1]{#1 \downarrow}
+\newcommand{\issubst}{\Vdash}
+\newcommand{\ift}{\m{int{-}or{-}float}}
+\newcommand{\ecase}[3]{\m{case} \; #1 \; (#2 \Rightarrow #3)}
+\newcommand{\ecaselr}[3]{\m{case} \; #1 \; (\m{inl} \Rightarrow #2 \mid \m{inr} \Rightarrow #3)}
+\newcommand{\case}[2]{\m{case} \; #1 \; (#2)}
+\newcommand{\erecv}[2]{#2 \leftarrow \m{recv} \; #1}
+\newcommand{\esend}[2]{\m{send} \; #1 \; #2}
+\newcommand{\esendl}[2]{#1.#2}
+\newcommand{\ewait}[1]{\m{wait} \; #1}
+\newcommand{\eclose}[1]{\m{close} \; #1}
+\newcommand{\fwd}[2]{#1 \leftrightarrow #2}
+\newcommand{\espawn}[3]{#1 \leftarrow #2 \; #3}
+\newcommand{\ichoice}[1]{\oplus\{#1\}}
+\newcommand{\echoice}[1]{\&\{#1\}}
+\newcommand{\with}{\,\&\,}
+\newcommand{\one}{\mathbf{1}}
+\newcommand{\tensor}{\otimes}
+\newcommand{\lolli}{\multimap}
+\newcommand{\config}{\mathcal{C}}
+\newcommand{\dc}{\mathcal{D}}
+\newcommand{\D}{\Delta}
+\newcommand{\T}{\Theta}
+\newcommand{\poised}[1]{#1 \; \m{poised}}
+\newcommand{\proc}[2]{\m{proc}(#1, #2)}
+\newcommand{\msg}[2]{\m{msg}(#1, #2)}
+\newcommand{\fresh}[1]{(#1 \; \m{fresh})}
+\newcommand{\up}{\,\uparrow^{\m{S}}_{\m{L}}}
+\newcommand{\down}{\,\downarrow^{\m{S}}_{\m{L}}}
+
+\newcommand{\cons}{\mathcal{C}}
+\newcommand{\vars}{\mathcal{V}}
+\newcommand{\proves}{\vDash}
+
+\newcommand{\tforall}[1]{\forall #1. \, }
+\newcommand{\texists}[1]{\exists #1. \, }
+\newcommand{\tassertop}{{?}}  % -fp was: ?
+\newcommand{\tassumeop}{{!}}  % -fp was: !
+\newcommand{\tassert}[1]{\tassertop\{#1\}. \,} % -fp was: \; \tassertop
+\newcommand{\tassume}[1]{\tassumeop\{#1\}. \,} % -fp was: \; \tassumeop
+
+\newcommand{\esendn}[2]{\m{send} \; #1 \; \{#2\}}
+\newcommand{\erecvn}[2]{\{#2\} \leftarrow \m{recv} \; #1}
+\newcommand{\eassume}[2]{\m{assume} \; #1 \; \{#2\}}
+\newcommand{\eassert}[2]{\m{assert} \; #1 \; \{#2\}}
+\newcommand{\eimposs}{\m{impossible}}
+
+\newcommand{\epair}[2]{\langle #1, #2 \rangle}
+\newcommand{\letpair}[4]{\m{let} \; \langle #1, #2 \rangle = #3 \; \m{in} \; #4}
+\newcommand{\inl}[1]{\m{inl}(#1)}
+\newcommand{\inr}[1]{\m{inr}(#1)}
+\newcommand{\match}[5]{\m{match} \; #1 \; \m{with} \; \{\,\m{inl}(#2) \to #3 \mid \m{inr}(#4) \to #5\,\}}
+\newcommand{\letapp}[4]{\m{let} \; #1 = #2 \; #3 \; \m{in} \; #4}
+
+\newcommand{\limpl}{\supset}
+\newcommand{\Nat}{\mathbb{N}}
+\newcommand{\Real}{\mathbb{R}}
+
+\newtheorem{problem}{Problem}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+\newenvironment{solution}{\textbf{Solution.}}{}
+
+\makeatletter
+\def\arcr{\@arraycr}
+\makeatother
+
+
+\begin{document}
+\maketitle
+
+\begin{problem}[Mandatory; No LLM; 10 pts]
+    Recall the natural deduction problems from Assignment 1.
+    For the following propositions, provide
+    the corresponding proof term \emph{[2.5 pts each]}.
+
+    \begin{enumerate}[(i)]
+        \item $(A \limpl (B \limpl C)) \limpl (A \land B) \limpl C$
+        \item $A \limpl \neg \neg A$
+        \item $(\neg A \lor \neg B) \limpl \neg (A \land B)$
+        \item $(A \land (B \lor C)) \limpl (A \land B) \lor (A \land C)$
+    \end{enumerate}
+\end{problem}
+
+\begin{solution}
+    YOUR SOLUTION GOES HERE
+\end{solution}
+
+
+\begin{problem}[Mandatory; No LLM; 15 pts]
+Recall the $A \land B$ operator from constructive logic. Suppose we keep the introduction rule unchanged, but update the
+elimination rule as follows:
+    \begin{mathpar}
+        \inferrule*[right=$\land I$]
+        {A \pt \and B \pt}
+        {A \land B \pt}
+        \and
+        \inferrule*[right=$\land E^{x,y}$]
+        {
+        \begin{array}{cc}
+            & \;\;\;\;\inferrule*[right=$x$]
+            { }
+            {A \pt}
+            \quad
+            \inferrule*[right=$y$]
+            { }
+            {B \pt} \arcr
+            & \vdots \arcr
+            A \land B \pt &
+            \inferrule*
+            {}
+            {C \pt}
+        \end{array}    
+        }
+        {C \pt}
+    \end{mathpar}
+\begin{itemize}
+    \item Are the rules locally sound? If yes, show a reduction. Otherwise, give an explanation of unsoundness.
+    \item Are the rules locally complete? If yes, show an expansion. Otherwise, give an explanation of incompleteness.
+    \item Provide an appropriate proof term for the elimination rule.
+\end{itemize}
+\end{problem}
+
+\begin{solution}
+    YOUR SOLUTION GOES HERE
+\end{solution}
+
+\begin{problem}[Mandatory; No LLM; 15 pts]
+    Recall the $A \limpl B$ operator from constructive logic. Suppose we keep the introduction rule unchanged, but update the
+    elimination rule as follows:
+    \begin{mathpar}
+        \inferrule*[right=$\limpl I^x$]
+        {\begin{array}{c}
+            \;\;\;\inferrule*[right=$x$]
+            { }
+            {A \pt} \arcr
+            \vdots \arcr
+            B \pt
+        \end{array}}
+        {A \limpl B \pt}
+        \and
+        \inferrule*[right=$\limpl E^{x}$]
+        {
+        \begin{array}{cc}
+            & \;\;\;\inferrule*[right=$x$]
+            { }
+            {B \pt} \arcr
+            & \vdots \arcr
+            A \limpl B \pt \and A \pt &
+            \inferrule*
+            {}
+            {C \pt}
+        \end{array}    
+        }
+        {C \pt}
+    \end{mathpar}
+\begin{itemize}
+    \item Are the rules locally sound? If yes, show a reduction. Otherwise, give an explanation of unsoundness.
+    \item Are the rules locally complete? If yes, show an expansion. Otherwise, give an explanation of incompleteness.
+    \item Provide an appropriate proof term for the elimination rule.
+\end{itemize}
+\end{problem}
+
+\begin{solution}
+    YOUR SOLUTION GOES HERE
+\end{solution}
+
+\begin{problem}[Mandatory; No LLMs; 15 pts]
+Suppose we define a new operator $A \star B$ with the following introduction and elimination rules:
+\begin{mathpar}
+    \inferrule*[right=$\star I_1^x$]
+    {\begin{array}{c}
+        \;\;\;\inferrule*[right=$x$]
+        { }
+        {A \pt} \arcr
+        \vdots \arcr
+        B \pt
+    \end{array}}
+    {A \star B \pt}
+    \and
+    \inferrule*[right=$\star I_2^x$]
+    {\begin{array}{c}
+        \;\;\;\inferrule*[right=$x$]
+        { }
+        {B \pt} \arcr
+        \vdots \arcr
+        A \pt
+    \end{array}}
+    {A \star B \pt}
+    \and
+    \inferrule*[right=$\star E^{x,y}$]
+    {
+    \begin{array}{ccccc}
+        & & \;\;\;\inferrule*[right=$x$]
+        { }
+        {B \pt} & &
+        \;\;\;\inferrule*[right=$y$]
+        { }
+        {A \pt} \arcr
+        & & \vdots & & \vdots \arcr
+        A \star B \pt & \quad A \pt &
+        \inferrule*
+        {}
+        {C \pt}
+        & B \pt
+        & C \pt
+    \end{array}    
+    }
+    {C \pt}
+\end{mathpar}
+    \begin{itemize}
+        \item Are the rules locally sound? If yes, show a reduction. Otherwise, give an explanation of unsoundness.
+        \item Are the rules locally complete? If yes, show an expansion. Otherwise, give an explanation of incompleteness.
+        \item Can $A \star B$ be expressed using the standard operators in constructive logic?
+    \end{itemize}
+\end{problem}
+
+\begin{solution}
+    YOUR SOLUTION GOES HERE
+\end{solution}
+
+\begin{problem}[Mandatory; No LLMs; 15 pts]
+Suppose we define a new operator $A \heartsuit B \Diamond C$ with the following introduction and elimination rules:
+\begin{mathpar}
+    \inferrule*[right=$\heartsuit \Diamond I_1$]
+    {A \pt}
+    {A \heartsuit B \Diamond C \pt}
+    \and
+    \inferrule*[right=$\heartsuit \Diamond I_2$]
+    {B \pt \and C \pt}
+    {A \heartsuit B \Diamond C \pt}
+    \and
+    \inferrule*[right=$\heartsuit \Diamond E^{x,y,z}$]
+    {
+    \begin{array}{cccc}
+        & \;\;\;\inferrule*[right=$x$]
+        { }
+        {B \pt}
+        \quad
+        \inferrule*[right=$y$]
+        { }
+        {C \pt} & &
+        \;\;\;\inferrule*[right=$z$]
+        { }
+        {A \pt} \arcr
+        & \vdots & & \vdots \arcr
+        A \heartsuit B \Diamond C \pt &
+        \inferrule*
+        {}
+        {D \pt} &
+        & D \pt
+    \end{array}    
+    }
+    {D \pt}
+\end{mathpar}
+    \begin{itemize}
+        \item Are the rules locally sound? If yes, show a reduction. Otherwise, give an explanation of unsoundness.
+        \item Are the rules locally complete? If yes, show an expansion. Otherwise, give an explanation of incompleteness.
+        \item Provide a derivation of $A \heartsuit B \Diamond C \limpl A \heartsuit C \Diamond B \pt$.
+    \end{itemize}
+\end{problem}
+
+\begin{solution}
+    YOUR SOLUTION GOES HERE
+\end{solution}
+
+\begin{problem}[Optional; No LLMs; 15 pts]
+Determine if the following propositions are derivable using rules of verifications ($A \uparrow$) and uses ($A \downarrow$).
+If yes, provide a derivation. Otherwise, briefly explain why.
+\begin{enumerate}[(i)]
+    \item $((A \lor B) \land (A \limpl C) \land (B \limpl C)) \limpl C \uparrow$ 
+    \item $(A \limpl B) \limpl ((A \lor C) \limpl (B \lor C)) \uparrow$
+    \item $(A \lor B) \limpl ((A \limpl C) \limpl ((B \limpl D) \limpl (C \lor D))) \uparrow$
+\end{enumerate}
+\end{problem}
+
+\begin{solution}
+    YOUR SOLUTION GOES HERE
+\end{solution}
+
+\begin{problem}[Optional; LLMs ok; 30 pts]
+Given a derivation $\mathcal{D}$ of $A \; \m{true}$, can you construct a derivation $\mathcal{E}$
+of $A \uparrow$. \\
+Hint: Try this problem with only the $A \land B$ and $A \limpl B$ operators first.
+\end{problem}
+
+\begin{solution}
+    YOUR SOLUTION GOES HERE
+\end{solution}
+
+\begin{problem}[Optional; LLMs ok; 15 pts]
+Design introduction and elimination rules of a new connective $A \bullet B$ such that it is
+locally sound but not locally complete.
+\end{problem}
+
+\begin{solution}
+    YOUR SOLUTION GOES HERE
+\end{solution}
+
+\begin{problem}[Optional; LLMs ok; 15 pts]
+Design introduction and elimination rules of a new connective $A \circ B$ such that it is
+locally complete but not locally sound.
+\end{problem}
+
+\begin{solution}
+    YOUR SOLUTION GOES HERE
+\end{solution}
+
+
+\end{document}
