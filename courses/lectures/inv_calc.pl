@@ -1,3 +1,7 @@
+exists(A, [A | Gamma]).
+
+exists(A, [B | Gamma]) :- exists(A, Gamma).
+
 inv_prove(Gamma, A) :- invR([], Gamma, A).
 
 invR(Gamma, Omega, and(A, B)) :-
